@@ -3,18 +3,18 @@ import { Typography, Box } from "@mui/material";
 
 const Home = () => {
   return (
-    <Box sx={{ marginTop: "100px" }}>
-      <Typography
-        variant="h1"
-        sx={{
-          display: "block",
-          alignContent: "center",
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
-        Home
-      </Typography>
+    <Box
+      sx={{
+        bgcolor: "background.default",
+        marginTop: "80px",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h1">Home</Typography>
     </Box>
   );
 };

@@ -21,7 +21,7 @@ import { Container } from "@mui/system";
 const pages = ["Products", "Home", "Contact", "Turismo"];
 const paths = ["/products", "/", "/contact", "/turismo"];
 
-const Navbar = ({ handleEmpyCart }) => {
+const Navbar = ({ handleEmptyCart }) => {
   const { totalItems } = useSelector((state) => state.cart);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenNavMenu = (event) => {
@@ -31,17 +31,16 @@ const Navbar = ({ handleEmpyCart }) => {
     setAnchorElNav(null);
   };
   useEffect(() => {
-    // if (totalItems === 0) handleEmpyCart();
+    if (totalItems === 0) handleEmptyCart();
   }, [totalItems]);
 
   return (
     <AppBar position="fixed">
       <Container
-        maxWidth="xl"
         sx={{
-          backgroundColor: "black",
+          bgcolor: "background.appBar",
           color: "white",
-          height: "90px",
+          height: "80px",
         }}
       >
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
@@ -50,21 +49,40 @@ const Navbar = ({ handleEmpyCart }) => {
             to="/"
             edge="start"
             sx={{
-              width: "20vh",
               display: { xs: "none", md: "flex" },
-              margin: "0 10px",
+              margin: "0 24px 0 0",
+              width: "170px",
             }}
           >
             <MyLogo fill="black" stroke="white" />
           </IconButton>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, idx) => (
+              <Button
+                component={Link}
+                to={paths[idx]}
+                key={page}
+                hoverEffect="true"
+                sx={{
+                  m: "16px 8px",
+                  color: "white",
+                  "&:hover": {
+                    bgcolor: "background.appBar2",
+                  },
+                }}
+              >
+                <Typography variant="h6">{page}</Typography>
+              </Button>
+            ))}
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
               color="inherit"
+              onClick={handleOpenNavMenu}
             >
               <MenuIcon />
             </IconButton>
@@ -99,37 +117,24 @@ const Navbar = ({ handleEmpyCart }) => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton component={Link} to="/" sx={{ width: "20vh" }}>
+            <IconButton component={Link} to="/" sx={{ width: "170px" }}>
               <MyLogo fill="black" stroke="white" />
             </IconButton>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page, idx) => (
-              <Button
-                component={Link}
-                to={paths[idx]}
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
           </Box>
           <IconButton
             aria-label="cart"
             component={Link}
             to="/cart"
-            edge="end"
-            sx={{ color: "white" }}
+            color="inherit"
+            sx={{ pr: 1 }}
           >
             <Badge
               badgeContent={totalItems}
-              color="secondary"
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
               }}
+              color="secondary"
             >
               <ShoppingCartOutlinedIcon />
             </Badge>

@@ -74,12 +74,13 @@ const CartItem = ({
         <Card
           sx={{
             ...spacedRowSx,
-            "@media (max-width: 380px)": {
+            "@media (max-width: 300px)": {
               flexDirection: "column",
               p: "16px 0",
             },
             p: "0",
             m: "0",
+            bgcolor: "background.default",
           }}
         >
           <CardMedia
@@ -88,8 +89,8 @@ const CartItem = ({
             alt={item.name}
             // height="100"
             sx={{
-              padding: "0 16px",
-              "@media (max-width: 380px)": {
+              padding: "0 0 0 16px",
+              "@media (max-width: 300px)": {
                 padding: "0 16px 16px",
               },
               objectFit: "contain",
@@ -97,11 +98,8 @@ const CartItem = ({
               height: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
             }}
           />
-          <Box
-            bgcolor={quantity <= 0 ? "error.main" : "#F6F5F5"}
-            sx={{ display: "flex", flexDirection: "column", width: "100%" }}
-          >
-            <CardContent>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+            <CardContent sx={{ padding: "16px 16px 8px" }}>
               <Box sx={spacedRowSx}>
                 <Typography variant="h6" component="div">
                   {item.name}
@@ -125,9 +123,13 @@ const CartItem = ({
                 })}
               </Box>
             </CardContent>
-            <Divider sx={{ width: "90%", margin: "0 auto 10px" }} />
+            <Divider sx={{ width: "90%", margin: "0 auto 0px" }} />
             <CardActions
-              sx={{ ...spacedRowSx, padding: "0 16px 16px", overflowX: "auto" }}
+              sx={{
+                ...spacedRowSx,
+                padding: "8px 16px 16px",
+                overflowX: "auto",
+              }}
             >
               <Box sx={spacedRowSx}>
                 <IconButton

@@ -2,47 +2,69 @@ import React, { useState, useEffect } from "react";
 import { commerce } from "./lib/commerce";
 import { Products, Navbar, Cart, Checkout, Home } from "./components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { setCartProducts } from "./store";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { teal, cyan, lightBlue } from "@mui/material/colors";
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
+    background: {
+      default: "#fff",
+      paper: "#F9F3EE",
+      cart: "#DFD3C3",
+      appBar: "#000",
+      appBar2: "#596E79",
+    },
+
+    mode: "light",
+
     primary: {
-      main: "#0D4C92",
+      main: teal[500],
+      light: teal[200],
+      dark: teal[700],
     },
     secondary: {
-      main: "#59C1BD",
+      main: cyan[400],
+      light: cyan[200],
+      dark: cyan[700],
+    },
+    action: {
+      active: teal[700],
+      disabled: "#AFBEBF",
     },
   },
   typography: {
-    body2: {
-      fontFamily: "sans-serif",
-    },
+    fontFamily: "Solitreo",
     h1: {
       fontFamily: "Tangerine",
+      fontSize: "6rem",
+      fontWeight: 400,
     },
-    fontFamily: "Solitreo",
     h3: {
-      fontSize: "2.5rem",
-      "@media (max-width: 470px)": {
-        fontSize: "2rem",
-      },
+      fontWeight: 300,
+    },
+
+    body2: {
+      fontWeight: 300,
+      fontFamily: "Lucida Sans Unicode",
     },
   },
+});
+
+theme = responsiveFontSizes(theme, {
+  breakpoints: ["xs", "sm", "md", "lg", "xl"],
 });
 
 const App = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
-
-  const fetchProducts = async () => {
-    const { data } = await commerce.products.list();
-    setProducts(data);
-    console.log(data);
-  };
 
   const setReduxCart = (cart) => {
     let products = cart.line_items.map((item) => {
@@ -56,41 +78,45 @@ const App = () => {
     dispatch(setCartProducts(products));
   };
 
+  const fetchProducts = async () => {
+    const { data } = await commerce.products.list();
+    setProducts(data);
+  };
+
   const fetchCart = async () => {
     const cart = await commerce.cart.retrieve();
     setCart(cart);
     setReduxCart(cart);
-    console.log("cart", cart);
   };
 
   const handleAddToCart = async (productId, quantity, variantData) => {
     const newCart = await commerce.cart.add(productId, quantity, variantData);
     setCart(newCart);
+    console.log("added");
   };
 
   const handleUpdateCartQty = async (productId, quantity) => {
-    const response = await commerce.cart.update(productId, {
+    const newCart = await commerce.cart.update(productId, {
       quantity: quantity,
     });
-    console.log("update");
-    setCart(response);
-    setReduxCart(response);
+    setCart(newCart);
+    setReduxCart(newCart);
+    console.log("updated");
   };
 
   const handleRemoveFromCart = async (productId) => {
     try {
-      const response = await commerce.cart.remove(productId);
+      const newCart = await commerce.cart.remove(productId);
+      setCart(newCart);
       console.log("removed");
-      setCart(response);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleEmptyCart = async () => {
-    const response = await commerce.cart.empty();
-    console.log("empty");
-    setCart(response);
+    const newCart = await commerce.cart.empty();
+    setCart(newCart);
   };
 
   useEffect(() => {
@@ -106,10 +132,7 @@ const App = () => {
     >
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Navbar
-            totalItems={cart?.total_items || 0}
-            handleEmptyCart={handleEmptyCart}
-          />
+          <Navbar handleEmptyCart={handleEmptyCart} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route

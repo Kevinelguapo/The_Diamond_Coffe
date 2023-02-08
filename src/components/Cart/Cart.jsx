@@ -23,15 +23,14 @@ const BorderLinearProgress = (props) => (
   <LinearProgress
     {...props}
     sx={{
-      margin: "10px 0 16px",
       height: 10,
       borderRadius: 5,
       [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor: "primary.light",
+        backgroundColor: "primary.dark",
       },
       [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
-        backgroundColor: "secondary.main",
+        backgroundColor: "primary.light",
       },
     }}
   />
@@ -44,7 +43,6 @@ const Cart = ({
   handleRemoveFromCart,
   handleEmptyCart,
 }) => {
-  const BACKGROUND_COLOR = "#F8EDE3";
   const { totalItems, subTotal } = useSelector((state) => state.cart);
 
   const houndredPercent = 100000;
@@ -105,40 +103,38 @@ const Cart = ({
   const FilledCart = () => (
     <>
       <Box>
-        <Box
+        <AppBar
+          position="fixed"
           sx={{
-            position: "sticky",
-            top: "90px",
-            backgroundColor: BACKGROUND_COLOR,
-            zIndex: 1,
-            padding: "10px 0 0",
+            top: "80px",
+            bottom: "auto",
+            padding: "10px 16px 16px",
+            bgcolor: "background.appBar2",
+            color: "white",
           }}
         >
-          <Typography variant="subtitle1" textAlign={"center"}>
+          <Typography variant="subtitle2" textAlign={"center"}>
             {subTotalPercentage === 100
               ? "Envío Gratis!"
               : `Solo te faltan ${formatter.format(
                   remaining
-                )} para tener envío Gratis!`}
+                )} para el envío Gratis!`}
           </Typography>
 
           <BorderLinearProgress
             variant="determinate"
             value={subTotalPercentage}
           />
-        </Box>
+        </AppBar>
         <Grid
           container
           spacing={3}
           sx={{
             overflowY: "auto",
-
-            position: "relative",
-            top: "10px",
           }}
         >
           {cart.line_items.map((item) => (
-            <Grid item xs={12} key={item.id}>
+            <Grid item xs={12} md={6} key={item.id}>
               <CartItem
                 item={item}
                 handleUpdateCartQty={handleUpdateCartQty}
@@ -155,7 +151,7 @@ const Cart = ({
         sx={{
           top: "auto",
           bottom: 0,
-          padding: "0  20px",
+          padding: "0  16px",
           backgroundColor: "black",
         }}
       >
@@ -165,7 +161,7 @@ const Cart = ({
             justifyContent: "space-between",
             flexDirection: "row",
             alignItems: "center",
-            margin: "20px 0",
+            margin: "16px 0 10px",
           }}
         >
           <Typography variant="h5">SUBTOTAL:</Typography>
@@ -191,14 +187,7 @@ const Cart = ({
   );
   if (!cart.line_items)
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <Box sx={{ position: "absolute", alignItems: "center", height: "100vh" }}>
         <CircularProgress color="primary" size={100} />
       </Box>
     );
@@ -213,8 +202,9 @@ const Cart = ({
   return (
     <Container
       sx={{
-        padding: "90px 16px 130px",
-        backgroundColor: BACKGROUND_COLOR,
+        padding: "150px 8px 100px",
+        bgcolor: "background.paper",
+        minHeight: "100vh",
       }}
     >
       {totalItems === 0 ? <EmptyCart /> : <FilledCart />}

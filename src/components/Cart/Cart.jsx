@@ -1,4 +1,5 @@
 import React from "react";
+import { commerce } from "../../lib/commerce";
 import {
   Typography,
   Button,
@@ -15,7 +16,7 @@ import LinearProgress, {
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import CartItem from "./CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartProducts, setConfirmed } from "../../store";
+import { setConfirmed, setCart, setEmptyCart } from "../../store";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +27,8 @@ const BorderLinearProgress = (props) => (
       height: 10,
       borderRadius: 5,
       [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor: "primary.dark",
+        borderRadius: 5,
+        backgroundColor: "secondary.dark",
       },
       [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
@@ -36,14 +38,15 @@ const BorderLinearProgress = (props) => (
   />
 );
 
-const Cart = ({
-  cart,
-  fetchCart,
-  handleUpdateCartQty,
-  handleRemoveFromCart,
-  handleEmptyCart,
-}) => {
-  const { totalItems, subTotal } = useSelector((state) => state.cart);
+const Cart = () => {
+  const { subtotal, total_items, line_items } = useSelector(
+    (state) => state.cart.cart
+  );
+  let subTotal = subtotal.raw;
+
+  const { isLoadingProduct, isLoadingCart } = useSelector(
+    (state) => state.cart
+  );
 
   const houndredPercent = 100000;
   const [subTotalPercentage, setSubTotalPercentage] = useState(
@@ -54,9 +57,10 @@ const Cart = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  const handleEmptyCart = async () => {
+    dispatch(setEmptyCart());
+    await commerce.cart.empty();
+  };
 
   useEffect(() => {
     let percentage = (subTotal * 100) / houndredPercent;
@@ -66,11 +70,11 @@ const Cart = ({
   }, [subTotal]);
 
   useEffect(() => {
-    if (totalItems === 0) {
-      handleEmptyCart();
-      dispatch(setCartProducts([]));
+    if (total_items === 0) {
+      //handleEmptyCart();
+      // dispatch line_items to empty array
     }
-  }, [totalItems]);
+  }, [total_items]);
 
   const EmptyCart = () => (
     <Box
@@ -79,9 +83,8 @@ const Cart = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100%",
-
         padding: "20px",
+        minHeight: "calc(100vh - 160px)",
       }}
     >
       <Typography gutterBottom pb={1} variant="h5">
@@ -102,7 +105,14 @@ const Cart = ({
   );
   const FilledCart = () => (
     <>
-      <Box>
+      <Box
+        sx={{
+          padding: "70px 0 120px",
+
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <AppBar
           position="fixed"
           sx={{
@@ -128,23 +138,45 @@ const Cart = ({
         </AppBar>
         <Grid
           container
-          spacing={3}
+          spacing={2}
           sx={{
             overflowY: "auto",
           }}
         >
-          {cart.line_items.map((item) => (
+          {line_items.map((item) => (
             <Grid item xs={12} md={6} key={item.id}>
               <CartItem
                 item={item}
-                handleUpdateCartQty={handleUpdateCartQty}
-                handleRemoveFromCart={handleRemoveFromCart}
                 formatter={formatter}
+                handleEmptyCart={handleEmptyCart}
               />
             </Grid>
           ))}
         </Grid>
         <Divider sx={{ margin: "20px 0" }} />
+        <Typography variant="h6" textAlign="center">
+          ¿Quieres comprar más productos?
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/products")}
+          sx={{ marginTop: "10px", width: "100%" }}
+        >
+          Ir a la tienda
+        </Button>
+        <Divider sx={{ margin: "20px 0" }} />
+        <Typography variant="h6" textAlign="center">
+          ¿Quieres vaciar tu carrito?
+        </Typography>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleEmptyCart}
+          sx={{ marginTop: "10px", width: "100%" }}
+        >
+          Vaciar carrito
+        </Button>
       </Box>
       <AppBar
         position="fixed"
@@ -164,17 +196,17 @@ const Cart = ({
             margin: "16px 0 10px",
           }}
         >
-          <Typography variant="h5">SUBTOTAL:</Typography>
+          <Typography variant="h6">SUBTOTAL:</Typography>
           <Typography variant="h6">{formatter.format(subTotal)}</Typography>
         </Box>
         <Button
-          size="large"
+          size="medium"
           type="button"
           variant="contained"
           color="primary"
           onClick={() => {
             dispatch(setConfirmed(true));
-            console.log(cart);
+            console.log(total_items);
             setTimeout(() => navigate("/checkout"), 1500);
           }}
           sx={{ width: "100%", marginBottom: "16px" }}
@@ -185,12 +217,6 @@ const Cart = ({
       {/* {cart.line_items.length !== products.length && fetchData()} */}
     </>
   );
-  if (!cart.line_items)
-    return (
-      <Box sx={{ position: "absolute", alignItems: "center", height: "100vh" }}>
-        <CircularProgress color="primary" size={100} />
-      </Box>
-    );
 
   // Create our number formatter.
   const formatter = new Intl.NumberFormat("es-CO", {
@@ -200,15 +226,31 @@ const Cart = ({
   });
 
   return (
-    <Container
-      sx={{
-        padding: "150px 8px 100px",
-        bgcolor: "background.paper",
-        minHeight: "100vh",
-      }}
-    >
-      {totalItems === 0 ? <EmptyCart /> : <FilledCart />}
-    </Container>
+    <>
+      {!isLoadingProduct && !isLoadingCart ? (
+        <Container
+          sx={{
+            padding: "80px 8px 0",
+            bgcolor: "background.paper",
+            minHeight: "100vh",
+          }}
+        >
+          {total_items === 0 ? <EmptyCart /> : <FilledCart />}
+        </Container>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            width: "100vw",
+          }}
+        >
+          <CircularProgress color="primary" size={100} />
+        </Box>
+      )}
+    </>
   );
 };
 

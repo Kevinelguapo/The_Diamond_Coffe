@@ -21,8 +21,9 @@ import { Container } from "@mui/system";
 const pages = ["Products", "Home", "Contact", "Turismo"];
 const paths = ["/products", "/", "/contact", "/turismo"];
 
-const Navbar = ({ handleEmptyCart }) => {
-  const { totalItems } = useSelector((state) => state.cart);
+const Navbar = () => {
+  const { total_items } = useSelector((state) => state.cart.cart);
+  const { isLoadingCart } = useSelector((state) => state.cart);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,19 +31,16 @@ const Navbar = ({ handleEmptyCart }) => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  useEffect(() => {
-    if (totalItems === 0) handleEmptyCart();
-  }, [totalItems]);
 
   return (
-    <AppBar position="fixed">
-      <Container
-        sx={{
-          bgcolor: "background.appBar",
-          color: "white",
-          height: "80px",
-        }}
-      >
+    <AppBar
+      position="fixed"
+      sx={{
+        bgcolor: "background.appBar",
+        color: "white",
+      }}
+    >
+      <Container sx={{ height: "80px" }}>
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
           <IconButton
             component={Link}
@@ -127,9 +125,10 @@ const Navbar = ({ handleEmptyCart }) => {
             to="/cart"
             color="inherit"
             sx={{ pr: 1 }}
+            disabled={isLoadingCart}
           >
             <Badge
-              badgeContent={totalItems}
+              badgeContent={total_items}
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",

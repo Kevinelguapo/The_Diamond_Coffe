@@ -1,8 +1,17 @@
 export {
-  setCartProducts,
   incrementItem,
   removeItem,
-  incrementQuantity,
-  decrementQuantity,
+  updateQuantity,
   setConfirmed,
-} from "./slices/cartSlice/cartSlice";
+  setCart,
+  setLoadingProduct,
+  setLoadingCart,
+  setEmptyCart,
+} from "./slices/cartSlice";
+
+export {
+  setProducts,
+  setCategories,
+  setLoadingCategories,
+  setLoadingProducts,
+} from "./slices/productsSlice";

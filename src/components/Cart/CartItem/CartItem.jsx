@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Typography,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -9,7 +8,6 @@ import {
   Tooltip,
   IconButton,
   Box,
-  Skeleton,
   Divider,
 } from "@mui/material";
 
@@ -18,11 +16,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  incrementQuantity,
+  updateQuantity,
   removeItem,
-  decrementQuantity,
   setConfirmed,
-  setCartProducts,
+  setCart,
 } from "../../../store";
 import { useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -35,132 +32,148 @@ const spacedRowSx = {
   alignItems: "center",
 };
 
-const CartItem = ({
-  item,
-  handleUpdateCartQty,
-  handleRemoveFromCart,
-  formatter,
-}) => {
+const CartItem = ({ item, formatter, handleEmptyCart }) => {
   const dispatch = useDispatch();
 
-  const { totalItems } = useSelector((state) => state.cart);
+  const { total_items } = useSelector((state) => state.cart.cart);
+  const { confirmed } = useSelector((state) => state.cart);
 
-  const { products, confirmed } = useSelector((state) => state.cart);
-  const product = products.filter((product) => product.id === item.id)[0];
-  const quantity = product?.quantity;
-  const lineTotal = product?.lineTotal;
-
-  const remove = () => {
-    if (totalItems === quantity) {
-      dispatch(setCartProducts([]));
-    } else {
-      handleRemoveFromCart(item.id);
-      dispatch(removeItem(product));
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      await commerce.cart.remove(productId);
+      console.log("removed");
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  const remove = () => {
+    if (total_items === item.quantity) handleEmptyCart();
+    else {
+      dispatch(removeItem(item));
+      handleRemoveFromCart(item.id);
+    }
+  };
+
+  const handleAdd = () => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: item.quantity + 1,
+      })
+    );
+  };
+
+  const handleSubtract = () => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: item.quantity - 1,
+      })
+    );
+  };
+
   // when confirm button is clicked, update the quantity in the backend
+
+  const handleUpdateCartQty = async (productId, quantity) => {
+    const newCart = await commerce.cart.update(productId, {
+      quantity: quantity,
+    });
+    dispatch(setCart(newCart));
+    console.log("updated");
+  };
+
   useEffect(() => {
     if (confirmed) {
-      handleUpdateCartQty(item.id, quantity);
+      handleUpdateCartQty(item.id, item.quantity);
       dispatch(setConfirmed(false));
       console.log(item);
     }
   }, [confirmed]);
 
   return (
-    <>
-      {product && (
-        <Card
+    <Card
+      sx={{
+        ...spacedRowSx,
+        "@media (max-width: 300px)": {
+          flexDirection: "column",
+          p: "16px 0",
+        },
+        p: "0",
+        m: "0",
+        bgcolor: "background.default",
+        minHeight: "136.62px",
+      }}
+    >
+      <CardMedia
+        component="img"
+        image={item.image.url}
+        alt={item.name}
+        // height="100"
+        sx={{
+          padding: "0 0 0 16px",
+          "@media (max-width: 300px)": {
+            padding: "0 16px 16px",
+          },
+          objectFit: "contain",
+          width: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
+          height: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
+        }}
+      />
+      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <CardContent sx={{ padding: "16px 16px 8px" }}>
+          <Box sx={spacedRowSx}>
+            <Typography variant="h6" component="div">
+              {item.name}
+            </Typography>
+            <Typography variant="subtitle1">
+              {formatter.format(item.line_total.raw)}
+            </Typography>
+          </Box>
+          <Box sx={{ ...spacedRowSx, justifyContent: "left" }}>
+            {item.selected_options.map((option, idx, arr) => {
+              return (
+                <Typography
+                  key={option.group_id}
+                  variant="subtitle2"
+                  component="div"
+                  sx={{ ml: "5px" }}
+                >
+                  {option.option_name} {idx === arr.length - 1 ? "" : "/"}
+                </Typography>
+              );
+            })}
+          </Box>
+        </CardContent>
+        <Divider sx={{ width: "90%", margin: "0 auto 0px" }} />
+        <CardActions
           sx={{
             ...spacedRowSx,
-            "@media (max-width: 300px)": {
-              flexDirection: "column",
-              p: "16px 0",
-            },
-            p: "0",
-            m: "0",
-            bgcolor: "background.default",
+            padding: "8px 16px 16px",
+            overflowX: "auto",
           }}
         >
-          <CardMedia
-            component="img"
-            image={item.image.url}
-            alt={item.name}
-            // height="100"
-            sx={{
-              padding: "0 0 0 16px",
-              "@media (max-width: 300px)": {
-                padding: "0 16px 16px",
-              },
-              objectFit: "contain",
-              width: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
-              height: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
-            }}
-          />
-          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-            <CardContent sx={{ padding: "16px 16px 8px" }}>
-              <Box sx={spacedRowSx}>
-                <Typography variant="h6" component="div">
-                  {item.name}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {formatter.format(lineTotal)}
-                </Typography>
-              </Box>
-              <Box sx={{ ...spacedRowSx, justifyContent: "left" }}>
-                {item.selected_options.map((option, idx, arr) => {
-                  return (
-                    <Typography
-                      key={option.group_id}
-                      variant="subtitle2"
-                      component="div"
-                      sx={{ ml: "5px" }}
-                    >
-                      {option.option_name} {idx === arr.length - 1 ? "" : "/"}
-                    </Typography>
-                  );
-                })}
-              </Box>
-            </CardContent>
-            <Divider sx={{ width: "90%", margin: "0 auto 0px" }} />
-            <CardActions
-              sx={{
-                ...spacedRowSx,
-                padding: "8px 16px 16px",
-                overflowX: "auto",
-              }}
+          <Box sx={spacedRowSx}>
+            <IconButton
+              size="small"
+              disabled={item.quantity <= 1}
+              onClick={handleSubtract}
             >
-              <Box sx={spacedRowSx}>
-                <IconButton
-                  size="small"
-                  disabled={quantity <= 1}
-                  onClick={() => {
-                    dispatch(decrementQuantity(product));
-                  }}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <Typography sx={{ padding: "0 16px" }}>{quantity} </Typography>
-                <IconButton
-                  size="small"
-                  onClick={() => {
-                    dispatch(incrementQuantity(product));
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-              </Box>
-              <Tooltip title="Eliminar">
-                <IconButton sx={{ padding: 0 }} onClick={remove}>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </CardActions>
+              <RemoveIcon />
+            </IconButton>
+            <Typography sx={{ padding: "0 16px" }}>{item.quantity} </Typography>
+            <IconButton size="small" onClick={handleAdd}>
+              <AddIcon />
+            </IconButton>
           </Box>
-        </Card>
-      )}
-    </>
+          <Tooltip title="Eliminar">
+            <IconButton sx={{ padding: 0 }} onClick={remove}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
+      </Box>
+    </Card>
   );
 };
 

@@ -13,15 +13,19 @@ import useStyles from "./styles";
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
 import { commerce } from "../../../lib/commerce";
+import { useSelector } from "react-redux";
 
 const steps = ["Shipping adress", "Payment details"];
 
-const Checkout = ({ cart }) => {
+const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
   const classes = useStyles();
 
+  const cart = useSelector((state) => state.cart);
+
+  // the useEffect hook had a dependeny of cart
   useEffect(() => {
     const generateToken = async () => {
       try {
@@ -32,7 +36,7 @@ const Checkout = ({ cart }) => {
       } catch (error) {}
     };
     generateToken();
-  }, [cart]);
+  }, []);
 
   const nextStep = () =>
     setActiveStep((prevActiveState) => prevActiveState + 1);

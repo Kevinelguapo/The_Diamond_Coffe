@@ -20,13 +20,12 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { incrementItem } from "../../../store";
-import { useDispatch } from "react-redux";
+import { incrementItem, setCart, setLoadingProduct } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
 import { commerce } from "../../../lib/commerce";
 import { useState, useEffect } from "react";
 
-const Product = ({ product, onAddToCart }) => {
-  const dispatch = useDispatch();
+const Product = ({ product }) => {
   const [variants, setVariants] = useState([]);
   const [variantData, setVariantData] = useState({});
   const [options, setOptions] = useState([]);
@@ -36,6 +35,21 @@ const Product = ({ product, onAddToCart }) => {
   const [images, setImages] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
+
+  const dispatch = useDispatch();
+  const { isLoadingProduct } = useSelector((state) => state.cart);
+
+  const onAddToCart = async (productId, quantity, variantData) => {
+    const cart = await commerce.cart.add(productId, quantity, variantData);
+    dispatch(setCart(cart));
+    dispatch(setLoadingProduct(false));
+  };
+
+  const handleAddToCart = () => {
+    dispatch(incrementItem());
+    dispatch(setLoadingProduct(true));
+    onAddToCart(product.id, 1, variantData);
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -93,12 +107,6 @@ const Product = ({ product, onAddToCart }) => {
       setTotalPrice(price);
     }
   }, [options]);
-
-  const handleAddToCart = () => {
-    dispatch(incrementItem());
-    onAddToCart(product.id, 1, variantData);
-    console.log("variantData", variantData);
-  };
 
   const handleChange = (event, idx) => {
     variants[idx].options.forEach((option) => {
@@ -222,8 +230,12 @@ const Product = ({ product, onAddToCart }) => {
                 );
               })}
             </Box>
-            <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
-              <AddShoppingCart sx={{ color: "black" }} />
+            <IconButton
+              aria-label="Add to Cart"
+              disabled={isLoadingProduct}
+              onClick={handleAddToCart}
+            >
+              <AddShoppingCart />
             </IconButton>
           </CardActions>
         </Card>

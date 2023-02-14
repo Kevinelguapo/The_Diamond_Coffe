@@ -3,7 +3,7 @@ import { Typography, Button, Divider } from "@mui/material";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCartProducts } from "../../store";
+import {} from "../../store";
 
 import Review from "./Review";
 
@@ -19,7 +19,7 @@ const PaymentForm = ({ shippingData, checkoutToken, backStep }) => {
   };
   if (paidFor) {
     alert("Thank you for your purchase! ");
-    dispatch(setCartProducts([]));
+    // dispatch(clearCart());
     return (
       <div>
         <Typography variant="h5" gutterBottom>

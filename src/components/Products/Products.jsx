@@ -2,10 +2,19 @@ import { Grid, CircularProgress, Box, Button, AppBar } from "@mui/material";
 import Product from "./Product/Product";
 import { commerce } from "../.././lib/commerce";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCart } from "../../store";
 
-const Products = ({ products, onAddToCart }) => {
+const Products = () => {
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("All");
+  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+
+  const fetchProducts = async () => {
+    const { data } = await commerce.products.list();
+    setProducts(data);
+  };
 
   const fetchCategories = async () => {
     const { data } = await commerce.categories.list();
@@ -14,6 +23,7 @@ const Products = ({ products, onAddToCart }) => {
   };
 
   useEffect(() => {
+    fetchProducts();
     fetchCategories();
   }, []);
 
@@ -72,7 +82,7 @@ const Products = ({ products, onAddToCart }) => {
                 product.categories.filter((c) => c.name === categorie)
                   .length ? (
                   <Grid item xs={12} sm={6} md={4}>
-                    <Product product={product} onAddToCart={onAddToCart} />
+                    <Product product={product} />
                   </Grid>
                 ) : null}
               </React.Fragment>

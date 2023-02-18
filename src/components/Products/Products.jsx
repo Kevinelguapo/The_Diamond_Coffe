@@ -1,31 +1,13 @@
 import { Grid, CircularProgress, Box, Button, AppBar } from "@mui/material";
 import Product from "./Product/Product";
-import { commerce } from "../.././lib/commerce";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "../../store";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Products = () => {
-  const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("All");
-  const [products, setProducts] = useState([]);
-  const dispatch = useDispatch();
 
-  const fetchProducts = async () => {
-    const { data } = await commerce.products.list();
-    setProducts(data);
-  };
-
-  const fetchCategories = async () => {
-    const { data } = await commerce.categories.list();
-    setCategories(data);
-    //console.log("categories", data);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, []);
+  const { products } = useSelector((state) => state.products);
+  const { categories } = useSelector((state) => state.products);
 
   return (
     <>

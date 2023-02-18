@@ -26,18 +26,17 @@ import { commerce } from "../../../lib/commerce";
 import { useState, useEffect } from "react";
 
 const Product = ({ product }) => {
-  const [variants, setVariants] = useState([]);
   const [variantData, setVariantData] = useState({});
   const [options, setOptions] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(product.price.raw);
+  const [totalPrice, setTotalPrice] = useState(product?.price?.raw);
   const [expanded, setExpanded] = useState(false);
   const [limit, setLimit] = useState(2);
-  const [images, setImages] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = images.length;
+  const maxSteps = product?.assets?.length;
 
   const dispatch = useDispatch();
   const { isLoadingProduct } = useSelector((state) => state.cart);
+  const { isLoadingProducts } = useSelector((state) => state.products);
 
   const onAddToCart = async (productId, quantity, variantData) => {
     const cart = await commerce.cart.add(productId, quantity, variantData);
@@ -63,23 +62,16 @@ const Product = ({ product }) => {
     setExpanded(!expanded);
   };
 
-  const fetchProduct = async () => {
-    let prod = await commerce.products.retrieve(product.id);
-    setVariants(prod.variant_groups);
-    //console.log("variants", prod.name, prod.variant_groups);
-    prod.variant_groups.forEach((variant) => {
+  const setProduct = async () => {
+    product?.variant_groups?.forEach((variant) => {
       setOptions((current) => [...current, variant?.options[0]]);
     });
-    setImages(
-      prod.assets.map((asset) => {
-        return { url: asset.url, name: asset.filename };
-      })
-    );
   };
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    if (isLoadingProducts) return;
+    setProduct();
+  }, [isLoadingProducts]);
 
   useEffect(() => {
     if (expanded) {
@@ -91,10 +83,11 @@ const Product = ({ product }) => {
   }, [expanded]);
 
   useEffect(() => {
-    if (variants.length > 0) {
+    if (isLoadingProducts) return;
+    if (product?.variant_groups?.length > 0) {
       setVariantData(
-        variants.reduce((acc, variant, idx) => {
-          acc[variant.id] = options[idx].id;
+        product?.variant_groups?.reduce((acc, variant, idx) => {
+          acc[variant?.id] = options[idx]?.id;
           return acc;
         }, {})
       );
@@ -109,7 +102,7 @@ const Product = ({ product }) => {
   }, [options]);
 
   const handleChange = (event, idx) => {
-    variants[idx].options.forEach((option) => {
+    product?.variant_groups[idx]?.options?.forEach((option) => {
       if (option.name === event.target.value) {
         setOptions((current) => {
           let newOptions = [...current];
@@ -130,13 +123,13 @@ const Product = ({ product }) => {
   return (
     <>
       {" "}
-      {images.length ? (
+      {!isLoadingProducts ? (
         <Card sx={{ backgroundColor: "white" }}>
           <Box>
             <CardMedia
               component="img"
-              image={images[activeStep].url}
-              alt={images[activeStep].name}
+              image={product.assets[activeStep].url}
+              alt={product.assets[activeStep].filename}
               height="200"
               sx={{ objectFit: "contain" }}
             />
@@ -205,7 +198,7 @@ const Product = ({ product }) => {
 
           <CardActions disableSpacing sx={rowStyle}>
             <Box>
-              {variants?.map((variant, idx) => {
+              {product?.variant_groups?.map((variant, idx) => {
                 return (
                   <FormControl key={variant.id} sx={{ m: 1 }} size="small">
                     <InputLabel sx={{ zIndex: 0 }} id="demo-select-small">
@@ -214,7 +207,7 @@ const Product = ({ product }) => {
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
-                      value={options[idx]?.name}
+                      value={options[idx]?.name || ""}
                       label={variant.name}
                       onChange={(e) => handleChange(e, idx)}
                     >

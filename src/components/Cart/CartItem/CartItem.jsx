@@ -24,6 +24,7 @@ import {
 import { useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { commerce } from "../../../lib/commerce";
+import { useNavigate } from "react-router-dom";
 
 const spacedRowSx = {
   display: "flex",
@@ -34,6 +35,7 @@ const spacedRowSx = {
 
 const CartItem = ({ item, formatter, handleEmptyCart }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { total_items } = useSelector((state) => state.cart.cart);
   const { confirmed } = useSelector((state) => state.cart);
@@ -81,6 +83,7 @@ const CartItem = ({ item, formatter, handleEmptyCart }) => {
     });
     dispatch(setCart(newCart));
     console.log("updated");
+    navigate("/checkout");
   };
 
   useEffect(() => {

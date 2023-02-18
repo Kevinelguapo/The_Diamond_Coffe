@@ -23,7 +23,7 @@ const Checkout = () => {
   const [shippingData, setShippingData] = useState({});
   const classes = useStyles();
 
-  const cart = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
 
   // the useEffect hook had a dependeny of cart
   useEffect(() => {

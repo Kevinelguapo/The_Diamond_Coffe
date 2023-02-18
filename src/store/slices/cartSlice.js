@@ -17,7 +17,7 @@ const initialState = {
   },
   confirmed: false,
   isLoadingProduct: false,
-  isLoadingCart: true,
+  isLoadingCart: false,
 };
 
 const calcTotalItems = (items) => {

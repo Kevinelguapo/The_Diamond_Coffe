@@ -197,7 +197,7 @@ const Cart = () => {
           }}
         >
           <Typography variant="h6">SUBTOTAL:</Typography>
-          <Typography variant="h6">{formatter.format(subTotal)}</Typography>
+          <Typography variant="h5">{formatter.format(subTotal)}</Typography>
         </Box>
         <Button
           size="medium"
@@ -207,7 +207,7 @@ const Cart = () => {
           onClick={() => {
             dispatch(setConfirmed(true));
             console.log(total_items);
-            setTimeout(() => navigate("/checkout"), 1500);
+            // setTimeout(() => navigate("/checkout"), 1500);
           }}
           sx={{ width: "100%", marginBottom: "16px" }}
         >

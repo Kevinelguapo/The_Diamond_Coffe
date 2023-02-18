@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 
 import { commerce } from "./lib/commerce";
-import { setCart, setLoadingCart } from "./store";
+import {
+  setCart,
+  setLoadingCart,
+  setLoadingProducts,
+  setProducts,
+  setCategories,
+} from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { Products, Navbar, Cart, Checkout, Home } from "./components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -55,6 +61,9 @@ let theme = createTheme({
       fontWeight: 300,
       fontFamily: "Lucida Sans Unicode",
     },
+    h5: {
+      fontFamily: "lucida sans unicode",
+    },
   },
 });
 
@@ -65,6 +74,7 @@ theme = responsiveFontSizes(theme, {
 const App = () => {
   const dispatch = useDispatch();
   const { isLoadingProduct } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
 
   const fetchCart = async () => {
     if (isLoadingProduct) return;
@@ -75,13 +85,39 @@ const App = () => {
     dispatch(setLoadingCart(false));
   };
 
-  // const fetchProducts = async () => {
-  //   const { data } = await commerce.products.list();
-  //   setProducts(data);
-  // };
+  const fetchProducts = async () => {
+    dispatch(setLoadingProducts(true));
+    const { data } = await commerce.products.list();
+    dispatch(setProducts(data));
+
+    // RETRIVE EACH PRODUCT
+
+    const retriveProducts = async (item) => {
+      const prod = await commerce.products.retrieve(item.id);
+      return prod;
+    };
+    const promises = data.map((item) => retriveProducts(item));
+
+    Promise.all(promises)
+      .then((values) => {
+        console.log(values);
+        dispatch(setProducts(values));
+        dispatch(setLoadingProducts(false));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchCategories = async () => {
+    const { data } = await commerce.categories.list();
+    dispatch(setCategories(data));
+  };
 
   useEffect(() => {
+    fetchProducts();
     fetchCart();
+    fetchCategories();
   }, []);
 
   return (

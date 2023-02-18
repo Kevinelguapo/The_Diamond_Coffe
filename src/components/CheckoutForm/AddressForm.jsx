@@ -65,22 +65,22 @@ const AddressForm = ({ checkoutToken, next }) => {
     setShippingOption(options[0].id);
   };
 
-  // useEffect(() => {
-  //   fetchShippingCountries(checkoutToken.id);
-  // }, [checkoutToken]);
+  useEffect(() => {
+    fetchShippingCountries(checkoutToken.id);
+  }, [checkoutToken]);
 
-  // useEffect(() => {
-  //   if (shippingCountry) fetchSubdivisions(shippingCountry);
-  // }, [shippingCountry]);
+  useEffect(() => {
+    if (shippingCountry) fetchSubdivisions(shippingCountry);
+  }, [shippingCountry]);
 
-  // useEffect(() => {
-  //   if (shippingSubdivision)
-  //     fetchShippingOptions(
-  //       checkoutToken.id,
-  //       shippingCountry,
-  //       shippingSubdivision
-  //     );
-  // }, [shippingSubdivision]);
+  useEffect(() => {
+    if (shippingSubdivision)
+      fetchShippingOptions(
+        checkoutToken.id,
+        shippingCountry,
+        shippingSubdivision
+      );
+  }, [shippingSubdivision]);
 
   const submit = (data) => {
     console.log({
@@ -100,7 +100,7 @@ const AddressForm = ({ checkoutToken, next }) => {
       <br />
 
       <form align="center" onSubmit={handleSubmit(submit)}>
-        {/*<Grid container spacing={3}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <input
               type="text"
@@ -177,7 +177,7 @@ const AddressForm = ({ checkoutToken, next }) => {
           </Grid>
         </Grid>
         <br />
-        */}
+
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button component={Link} to="/cart" variant="outlined">
             Back to Cart

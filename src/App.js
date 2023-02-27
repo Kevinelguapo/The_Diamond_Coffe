@@ -31,26 +31,22 @@ let theme = createTheme({
 
     mode: "light",
 
-    primary: {
-      main: teal[500],
-      light: teal[200],
-      dark: teal[700],
-    },
-    secondary: {
-      main: cyan[500],
-      light: cyan[200],
-      dark: cyan[800],
-    },
+    primary: teal,
+    secondary: cyan,
     action: {
       active: teal[900],
-      disabled: "#AFBEBF",
+      disabled: teal[100],
     },
   },
   typography: {
-    fontFamily: "Solitreo",
+    fontFamily: "Lucida Sans Unicode",
     h1: {
-      fontFamily: "Tangerine",
+      fontFamily: "Solitreo",
       fontSize: "6rem",
+      fontWeight: 400,
+    },
+    h2: {
+      fontSize: "4rem",
       fontWeight: 400,
     },
     h3: {
@@ -74,7 +70,6 @@ theme = responsiveFontSizes(theme, {
 const App = () => {
   const dispatch = useDispatch();
   const { isLoadingProduct } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
 
   const fetchCart = async () => {
     if (isLoadingProduct) return;
@@ -134,16 +129,6 @@ const App = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/cart" element={<Cart fetchCart={fetchCart} />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route
-              path="/contact"
-              element={
-                <>
-                  <br></br>
-                  <br></br>
-                  <h1>Contact</h1>
-                </>
-              }
-            />
             <Route
               path="/turismo"
               element={

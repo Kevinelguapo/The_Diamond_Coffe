@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { ReactComponent as MyLogo } from "../../assets/logosvg.svg";
 import { Link } from "react-router-dom";
@@ -18,8 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Container } from "@mui/system";
 
-const pages = ["Products", "Home", "Contact", "Turismo"];
-const paths = ["/products", "/", "/contact", "/turismo"];
+const pages = ["Products", "Home", "Turismo"];
+const paths = ["/products", "/", "/turismo"];
 
 const Navbar = () => {
   const { total_items } = useSelector((state) => state.cart.cart);
@@ -40,7 +40,7 @@ const Navbar = () => {
         color: "white",
       }}
     >
-      <Container sx={{ height: "80px" }}>
+      <Container sx={{ height: "80px", padding: "0 8px" }}>
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
           <IconButton
             component={Link}
@@ -60,7 +60,6 @@ const Navbar = () => {
                 component={Link}
                 to={paths[idx]}
                 key={page}
-                hoverEffect="true"
                 sx={{
                   m: "16px 8px",
                   color: "white",

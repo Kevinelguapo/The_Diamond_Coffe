@@ -28,7 +28,8 @@ const BorderLinearProgress = (props) => (
       borderRadius: 5,
       [`&.${linearProgressClasses.colorPrimary}`]: {
         borderRadius: 5,
-        backgroundColor: "secondary.dark",
+        backgroundColor: "inherit",
+        border: "1px solid #e0e0e0",
       },
       [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
@@ -184,7 +185,8 @@ const Cart = () => {
           top: "auto",
           bottom: 0,
           padding: "0  16px",
-          backgroundColor: "black",
+          bgcolor: "background.appBar",
+          color: "white",
         }}
       >
         <Box

@@ -228,7 +228,7 @@ const Product = ({ product }) => {
               disabled={isLoadingProduct}
               onClick={handleAddToCart}
             >
-              <AddShoppingCart />
+              <AddShoppingCart size="large" />
             </IconButton>
           </CardActions>
         </Card>

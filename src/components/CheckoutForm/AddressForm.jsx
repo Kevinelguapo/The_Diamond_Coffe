@@ -94,7 +94,7 @@ const AddressForm = ({ checkoutToken, next }) => {
 
   return (
     <>
-      <Typography variant="h6" gutterBottom align="center">
+      <Typography variant="h6" gutterbottom align="center">
         Shipping Address
       </Typography>
       <br />
@@ -132,7 +132,7 @@ const AddressForm = ({ checkoutToken, next }) => {
               placeholder="Zip / Postal Code"
             />
           </Grid>
-          <Grid item xs={12} sm={12} gutterBottom></Grid>
+          <Grid item xs={12} sm={12} gutterbottom></Grid>
           <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Country</InputLabel>
             <Select

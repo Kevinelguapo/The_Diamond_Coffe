@@ -11,6 +11,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "./FormInput";
 import { commerce } from "../../lib/commerce";
 import { Link } from "react-router-dom";
+import TextField from '@mui/material/TextField';
 
 const AddressForm = ({ checkoutToken, next }) => {
   const [shippingCountries, setShippingCountries] = useState([]);
@@ -32,9 +33,7 @@ const AddressForm = ({ checkoutToken, next }) => {
     label: `${option.description} - ${option.price.formatted_with_code}`,
   }));
 
-  console.log(shippingOptions);
-
-  const { register, handleSubmit } = useForm();
+  //console.log(shippingOptions);
 
   const fetchShippingCountries = async (checkoutTokenId) => {
     const { countries } = await commerce.services.localeListShippingCountries(
@@ -82,57 +81,28 @@ const AddressForm = ({ checkoutToken, next }) => {
       );
   }, [shippingSubdivision]);
 
+  const { control, handleSubmit } = useForm();
+
   const submit = (data) => {
-    console.log({
-      ...data,
-      shippingCountry,
-      shippingSubdivision,
-      shippingOption,
-    });
     next({ ...data, shippingCountry, shippingSubdivision, shippingOption });
   };
 
   return (
     <>
-      <Typography variant="h6" gutterbottom align="center">
+      <Typography variant="h5" align="center">
         Shipping Address
       </Typography>
       <br />
 
       <form align="center" onSubmit={handleSubmit(submit)}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <input
-              type="text"
-              {...register("name")}
-              required
-              placeholder="First Name"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input
-              type="text"
-              {...register("lastName")}
-              placeholder="Last Name"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input type="email" {...register("email")} placeholder="Email" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input type="text" {...register("address")} placeholder="Address" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input type="text" {...register("city")} placeholder="City" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input
-              type="number"
-              {...register("zip")}
-              placeholder="Zip / Postal Code"
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} gutterbottom></Grid>
+          <FormInput control={control} name="firstName" label="First Name" required={true} />
+          <FormInput control={control} name="lastName" label="Last Name" required={false} />
+          <FormInput control={control} name="email" label="Email" required={true} />
+          <FormInput control={control} name="address" label="Address" required={true} />
+          <FormInput control={control} name="city" label="City" required={true} />
+          <FormInput control={control} name="zip" label="Zip / Postal Code" required={true} />
+
           <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Country</InputLabel>
             <Select

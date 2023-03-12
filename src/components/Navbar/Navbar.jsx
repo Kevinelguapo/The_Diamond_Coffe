@@ -40,7 +40,7 @@ const Navbar = () => {
         color: "white",
       }}
     >
-      <Container sx={{ height: "80px", padding: "0 8px" }}>
+      <Container sx={{ height: "80px", margin: 0}} maxWidth={false}>
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
           <IconButton
             component={Link}
@@ -123,7 +123,7 @@ const Navbar = () => {
             component={Link}
             to="/cart"
             color="inherit"
-            sx={{ pr: 1 }}
+            sx={{ pr: "10px" }}
             disabled={isLoadingCart}
           >
             <Badge

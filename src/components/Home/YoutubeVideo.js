@@ -6,20 +6,23 @@ const YoutubeVideo = ({ embedId }) => {
   return (
     <CardMedia
       component="iframe"
-      src={`https://www.youtube.com/embed/${embedId}?autoplay=1&loop=1`}
+      src={`https://www.youtube.com/embed/${embedId}?loop=1`}
       sx={{
         height: {
-          xs: "300px",
+          xs: "350px",
           sm: "400px",
           md: "500px",
-          lg: "600px",
-          xl: "700px",
+          lg: "550px",
+          xl: "600px",
         },
+        padding: "10px 0 0",
+        bgcolor: "background.appBar",
       }}
       allowFullScreen
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      // allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; mute=1"
       title="Embedded youtube"
       frameBorder={0}
+     
     ></CardMedia>
   );
 };

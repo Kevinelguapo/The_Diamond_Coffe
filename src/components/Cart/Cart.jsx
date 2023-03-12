@@ -45,7 +45,7 @@ const Cart = () => {
   );
   let subTotal = subtotal.raw;
 
-  const { isLoadingProduct, isLoadingCart } = useSelector(
+  const { isLoadingProduct, isLoadingCart, confirmed } = useSelector(
     (state) => state.cart
   );
 
@@ -54,6 +54,7 @@ const Cart = () => {
     (subTotal * 100) / houndredPercent
   );
   const [remaining, setRemaining] = useState(houndredPercent - subTotal);
+  const [confirmedIsLoading, setConfirmedIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,7 +109,7 @@ const Cart = () => {
     <>
       <Box
         sx={{
-          padding: "70px 0 120px",
+          padding: "80px 0 120px",
 
           justifyContent: "center",
           alignItems: "center",
@@ -208,10 +209,10 @@ const Cart = () => {
           color="primary"
           onClick={() => {
             dispatch(setConfirmed(true));
-            console.log(total_items);
-            // setTimeout(() => navigate("/checkout"), 1500);
+            setConfirmedIsLoading(true);
           }}
           sx={{ width: "100%", marginBottom: "16px" }}
+          disabled={confirmedIsLoading}
         >
           Comprar ahora <ShoppingCartCheckoutIcon />
         </Button>
@@ -232,7 +233,7 @@ const Cart = () => {
       {!isLoadingProduct && !isLoadingCart ? (
         <Container
           sx={{
-            padding: "80px 8px 0",
+            padding: "80px 10px 0",
             bgcolor: "background.paper",
             minHeight: "100vh",
           }}

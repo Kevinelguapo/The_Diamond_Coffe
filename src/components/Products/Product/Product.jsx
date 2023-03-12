@@ -13,6 +13,7 @@ import {
   MenuItem,
   MobileStepper,
   Skeleton,
+  Divider,
 } from "@mui/material";
 import {
   AddShoppingCart,
@@ -76,7 +77,6 @@ const Product = ({ product }) => {
   useEffect(() => {
     if (expanded) {
       setLimit(100);
-      console.log("options", options);
     } else {
       setLimit(2);
     }
@@ -124,13 +124,13 @@ const Product = ({ product }) => {
     <>
       {" "}
       {!isLoadingProducts ? (
-        <Card sx={{ backgroundColor: "white" }}>
+        <Card sx={{ backgroundColor: "white"}}>
           <Box>
             <CardMedia
               component="img"
               image={product.assets[activeStep].url}
               alt={product.assets[activeStep].filename}
-              height="200"
+              height="250"
               sx={{ objectFit: "contain" }}
             />
             <MobileStepper
@@ -159,7 +159,7 @@ const Product = ({ product }) => {
             />
           </Box>
 
-          <CardContent sx={{ padding: "0 16px 10px" }}>
+          <CardContent>
             <Box sx={rowStyle}>
               <Typography variant="h5" gutterBottom>
                 {product.name}
@@ -195,7 +195,6 @@ const Product = ({ product }) => {
               </IconButton>
             </Box>
           </CardContent>
-
           <CardActions disableSpacing sx={rowStyle}>
             <Box>
               {product?.variant_groups?.map((variant, idx) => {

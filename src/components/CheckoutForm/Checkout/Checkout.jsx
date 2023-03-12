@@ -8,8 +8,11 @@ import {
   CircularProgress,
   Divider,
   Button,
+  Box,
+  Container,
 } from "@mui/material";
-import useStyles from "./styles";
+
+import CssBaseline from '@mui/material/CssBaseline';
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
 import { commerce } from "../../../lib/commerce";
@@ -21,22 +24,23 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
-  const classes = useStyles();
 
   const { cart } = useSelector((state) => state.cart);
 
-  // the useEffect hook had a dependeny of cart
+  const generateToken = async () => {
+    try {
+      const token = await commerce.checkout.generateToken(cart.id, {
+        type: "cart",
+      });
+      setCheckoutToken(token);
+    } catch (error) {
+      console.log("Error generating token", error);
+    }
+  };
+
   useEffect(() => {
-    const generateToken = async () => {
-      try {
-        const token = await commerce.checkout.generateToken(cart.id, {
-          type: "cart",
-        });
-        setCheckoutToken(token);
-      } catch (error) {}
-    };
     generateToken();
-  }, []);
+  }, [cart]);
 
   const nextStep = () =>
     setActiveStep((prevActiveState) => prevActiveState + 1);
@@ -45,45 +49,75 @@ const Checkout = () => {
 
   const next = (data) => {
     setShippingData(data);
+    console.log("shippingData", data);
     nextStep();
   };
 
-  const Confirmation = () => <div>Confirmation</div>;
+  const Confirmation = () =>
+    <React.Fragment>
+      <Typography variant="h5" gutterBottom>
+        Thank you for your order.
+      </Typography>
+      <Typography variant="subtitle1">
+        Your order number is #2001539. We have emailed your order
+        confirmation, and will send you an update when your order has
+        shipped.
+      </Typography>
+    </React.Fragment>;
 
-  const Form = () =>
-    activeStep === 0 ? (
-      <AddressForm checkoutToken={checkoutToken} next={next} />
-    ) : (
-      <PaymentForm
-        shippingData={shippingData}
-        checkoutToken={checkoutToken}
-        backStep={backStep}
-      />
-    );
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm checkoutToken={checkoutToken} next={next} />;
+      case 1:
+        return <PaymentForm
+          shippingData={shippingData}
+          checkoutToken={checkoutToken}
+          backStep={backStep}
+        />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
   return (
-    <>
-      <div className={classes.toolbar} />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((step) => (
-              <Step key={step}>
-                <StepLabel>{step}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {activeStep === steps.length ? (
-            <Confirmation />
-          ) : (
-            checkoutToken && <Form />
-          )}
-        </Paper>
-      </main>
-    </>
+    <Container component="main" maxWidth="sm" sx={{ mt:"100px", mb: 4 }}>
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Typography component="h1" variant="h4" align="center">
+          Checkout
+        </Typography>
+        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }} >
+          {steps.map((step) => (
+            <Step key={step}>
+              <StepLabel>{step}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <Confirmation />
+        ) : (
+          <>
+            {checkoutToken && getStepContent(activeStep)}
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {activeStep !== 0 && (
+                <Button onClick={backStep} sx={{ mt: 3, ml: 1 }}>
+                  Back
+                </Button>
+              )}
+              {activeStep == steps.length - 1 && 
+              <Button
+                variant="contained"
+                onClick={nextStep}
+                sx={{ mt: 3, ml: 1 }}
+              >
+                Place Order
+              </Button>
+              }
+            </Box>
+          </>
+        )}
+      </Paper>
+    </Container>
   );
 };
 

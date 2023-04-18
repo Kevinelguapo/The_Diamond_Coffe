@@ -24,14 +24,29 @@ let theme = createTheme({
     background: {
       default: "#fff",
       paper: "#F9F3EE",
-      cart: "#DFD3C3",
+      cart: "#DFD3C3", // a darker paper
       appBar: "#000",
       appBar2: "#596E79",
+      darkGrey: "#333",
+      lightGrey: "#ccc",
+    },
+    text: {
+      primary: "#000",
+      white: "#fff",
+    },
+    youtubeStepper: {
+      active: "#DFD3C3",
+      disabled: "#ccc",
     },
 
     mode: "light",
 
-    primary: teal,
+    primary: {
+      main: teal[600],
+      dark: teal[900],
+      light: teal[100],
+      contrastText: "#fff",
+    },
     secondary: cyan,
     action: {
       active: teal[900],
@@ -39,27 +54,7 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Lucida Sans Unicode",
-    h1: {
-      fontFamily: "Solitreo",
-      fontSize: "6rem",
-      fontWeight: 400,
-    },
-    h2: {
-      fontSize: "4rem",
-      fontWeight: 400,
-    },
-    h3: {
-      fontWeight: 300,
-    },
-
-    body2: {
-      fontWeight: 300,
-      fontFamily: "Lucida Sans Unicode",
-    },
-    h5: {
-      fontFamily: "lucida sans unicode",
-    },
+    fontFamily: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
   },
 });
 

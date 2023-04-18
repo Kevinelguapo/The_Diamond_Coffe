@@ -5,49 +5,44 @@ import InfoIcon from "@mui/icons-material/Info";
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 // import images
-import poster from "../../assets/coffee/poster.jpg";
-import cafeRobustaYArabica from "../../assets/coffee/cafe-robusta-y-arabica.jpg";
-import geishabeans from "../../assets/coffee/geishabeans.jpg";
-import presentacion from "../../assets/coffee/Presentación.jpg";
-import ubicacion from "../../assets/coffee/Ubicación.jpg";
-
 
 const HomeImages = ({ aboutUsSx }) => {
 
+
   const images = [
     {
-      url: poster,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/poster.jpg",
+      title: 'Poster',
       id: 1,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit some description Lorem ipsum dolor sit amet consectetur adipisicing elit somoe description about this image that i'll put for the user to know what is all about or what is that mean."
     },
     {
-      url: cafeRobustaYArabica,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Ubicaci%C3%B3n.jpg",
+      title: 'Ubicación',
       id: 2,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: geishabeans,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/geishabeans.jpg",
+      title: 'Geisha Beans',
       id: 3,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit somoe description about this image that i'll put for the user to know what is all about or what is that mean."
     },
     {
-      url: presentacion,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Presentaci%C3%B3n.jpg",
+      title: 'Presentación',
       id: 4,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: poster,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/poster.jpg",
+      title: 'Poster',
       id: 5,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: ubicacion,
-      title: 'Image',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Paper-coffee-bag-on-transparent-background-PNG.png",
+      title: 'Paper coffee bag',
       id: 6,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },

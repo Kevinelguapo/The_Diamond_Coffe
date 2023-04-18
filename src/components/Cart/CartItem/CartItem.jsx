@@ -83,13 +83,14 @@ const CartItem = ({ item, formatter, handleEmptyCart }) => {
     });
     dispatch(setCart(newCart));
     console.log("updated");
+    dispatch(setConfirmed(false));
     navigate("/checkout");
   };
 
   useEffect(() => {
     if (confirmed) {
       handleUpdateCartQty(item.id, item.quantity);
-      dispatch(setConfirmed(false));
+      // dispatch(setConfirmed(false));
       console.log(item);
     }
   }, [confirmed]);

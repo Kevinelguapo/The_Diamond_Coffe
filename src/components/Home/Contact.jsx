@@ -22,103 +22,107 @@ import CloseIcon from '@mui/icons-material/Close';
 import { bgcolor } from '@mui/system';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export const Contact = () => {
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const phones = [
-        "+57313-439-3173",
-        "+57314-326-7025",
-        "+57311-252-3386",
-    ];
-    return (
-        <>
-        <Typography variant="h2" component="h1" align="center">
-          Contactanos
-        </Typography>
+  const phones = [
+    "+57313-439-3173",
+    "+57314-326-7025",
+    "+57311-252-3386",
+  ];
+  return (
+    <>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: "0%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "16px",
+          mt: "16px",
+          '& .MuiIconButton-root': { color: 'white' },
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "16px",
-          }}
+        }}
+      >
+        < IconButton
+          href="https://www.instagram.com/thediamond_coffee/"
+          target="_blank"
         >
-          < IconButton
-            href="https://www.instagram.com/thediamond_coffee/"
-            target="_blank"
-          >
-            <InstagramIcon />
-          </IconButton>
-          <IconButton href="https://wa.me/573112523386" target="_blank">
-            <WhatsAppIcon />
-          </IconButton>
-          <IconButton href="https://www.youtube.com/channel/UCZ8Y8Z8Z8Z8Z8Z8Z8Z8Z8Z8" target="_blank">
-            <YouTubeIcon />
-          </IconButton>
-          <IconButton onClick={handleClickOpen}>
-            <ContactPhoneIcon />
-          </IconButton>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            keepMounted
-            TransitionComponent={Transition}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-paper": {
-                backgroundColor: "background.paper",
-                color: "text.primary",
-                padding: "8px 8px 0",
-                borderRadius: "8px",
-                border: "2px solid",
-                borderColor: "background.cart",
-              },
-            }}
+          <InstagramIcon sx={{ color: "#fff" }} />
+        </IconButton>
+        <IconButton href="https://wa.me/573112523386" target="_blank">
+          <WhatsAppIcon />
+        </IconButton>
+        <IconButton href="https://www.youtube.com/channel/UCZ8Y8Z8Z8Z8Z8Z8Z8Z8Z8Z8" target="_blank">
+          <YouTubeIcon />
+        </IconButton>
+        <IconButton onClick={handleClickOpen}>
+          <ContactPhoneIcon />
+        </IconButton>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          keepMounted
+          TransitionComponent={Transition}
+          aria-describedby="alert-dialog-slide-description"
+          sx={{
+            "& .MuiDialog-paper": {
+              backgroundColor: "background.paper",
+              color: "text.primary",
+              padding: "8px 8px 0",
+              borderRadius: "8px",
+              border: "2px solid",
+              borderColor: "background.cart",
+            },
+          }}
 
-          >
-            <DialogTitle>{"¿Quieres llamar?"}</DialogTitle>
-            <List sx={{ pt: 0 }}>
-              {phones.map((phone) => (
-                <ListItem disableGutters key={phone} >  
-                  <ListItemButton href={`tel:${phone}`} onClick={handleClose}>
-                    <ListItemAvatar>
-                      <Avatar sx={{ color: "primary.main", bgcolor: "background.default", 
-                      border: "1px solid", 
-                      borderColor: "background.cart", 
-                      }}>
-                        <CallIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={phone.slice(-12).replace(/-/g, " ")} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-            <IconButton onClick={handleClose} sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                color: "background.cart"
-            }}>
-                <CloseIcon />
-            </IconButton>
-          </Dialog>
-          <IconButton href="mailto:thediamond.dbcoffee@gmail.com" >
-            <EmailIcon />
+        >
+          <DialogTitle>{"¿Quieres llamar?"}</DialogTitle>
+          <List sx={{ pt: 0 }}>
+            {phones.map((phone) => (
+              <ListItem disableGutters key={phone} >
+                <ListItemButton href={`tel:${phone}`} onClick={handleClose}>
+                  <ListItemAvatar>
+                    <Avatar sx={{
+                      color: "primary.main", bgcolor: "background.default",
+                      border: "1px solid",
+                      borderColor: "background.cart",
+                    }}>
+                      <CallIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={phone.slice(-12).replace(/-/g, " ")} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <IconButton onClick={handleClose} sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            color: "background.cart"
+          }}>
+            <CloseIcon />
           </IconButton>
-        </Box>
-        </>
-    )
+        </Dialog>
+        <IconButton href="mailto:thediamond.dbcoffee@gmail.com" >
+          <EmailIcon />
+        </IconButton>
+      </Box>
+    </>
+  )
 }

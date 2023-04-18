@@ -27,16 +27,6 @@ const FormInput = ({control, name, label, required }) => {
           />
         )}
       />
-      {/* <TextField
-        required
-        id={name}
-        name={name}
-        label={name.charAt(0).toUpperCase() + name.slice(1)}
-        fullWidth
-        autoComplete={`given-${name}`}
-        variant="outlined"
-        onChange={handleInputChange}
-      /> */}
     </Grid>
   );
 };

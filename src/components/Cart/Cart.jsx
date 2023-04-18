@@ -19,17 +19,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { setConfirmed, setCart, setEmptyCart } from "../../store";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Stack } from "@mui/system";
+import { Dialog, Skeleton, } from "@mui/material";
+import { PropaneTankSharp } from "@mui/icons-material";
 
 const BorderLinearProgress = (props) => (
-  <LinearProgress
-    {...props}
+  // the previous props was {...props}
+  <LinearProgress variant="determinate" {...props}
     sx={{
+      margin: "8px",
       height: 10,
       borderRadius: 5,
       [`&.${linearProgressClasses.colorPrimary}`]: {
         borderRadius: 5,
         backgroundColor: "inherit",
-        border: "1px solid #e0e0e0",
+        border: "1px solid",
+        borderColor: {
+          xs: "white",
+          lg: "#e0e0e0",
+        }
       },
       [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
@@ -78,73 +86,107 @@ const Cart = () => {
     }
   }, [total_items]);
 
+  function defaultBarSx(bgColor) {
+    return {
+      position: "fixed",
+      left: "50%",
+      transform: "translateX(-50%)",
+      padding: "8px 16px",
+      boxSizing: "border-box",
+      border: "none",
+      width: "100%",
+      bgcolor: {
+        xs: bgColor,
+        // lg: "background.paper",
+      },
+      color: {
+        xs: "white",
+        // lg: "black",
+      },
+      margin: "0 auto",
+      maxWidth: "1196px",
+      zIndex: 1,
+      borderTop: {
+        xs: "none",
+        lg: "2px solid",
+      },
+      borderBottom: {
+        xs: "none",
+        lg: "2px solid",
+      },
+      borderColor: {
+        xs: "none",
+        lg: "background.cart",
+      }
+    };
+  }
+
+
   const EmptyCart = () => (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
-        padding: "20px",
-        minHeight: "calc(100vh - 160px)",
+        justifyContent: "center",
+        padding: "0 20px",
+        height: "100vh",
       }}
     >
-      <Typography gutterBottom pb={1} variant="h5">
+      <Typography gutterBottom variant="h5" align="center" >
         NO HAY PRODUCTOS EN TU CARRITO!
       </Typography>
-      <Typography gutterBottom variant="h6">
+      <Typography gutterBottom variant="h6" align="center" >
         Agrega productos a tu carrito para comprar
       </Typography>
+      <br/>
       <Button
         variant="contained"
         color="primary"
         onClick={() => navigate("/products")}
-        sx={{ marginTop: "10px", width: "100%" }}
+        sx={{ marginTop: "10px", width: "100%", maxWidth: "500px" }}
       >
         Ir a la tienda
+        <ShoppingCartCheckoutIcon sx={{ marginLeft: "10px" }} />
       </Button>
     </Box>
   );
   const FilledCart = () => (
     <>
-      <Box
-        sx={{
-          padding: "80px 0 120px",
-
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <AppBar
-          position="fixed"
-          sx={{
-            top: "80px",
-            bottom: "auto",
-            padding: "10px 16px 16px",
-            bgcolor: "background.appBar2",
-            color: "white",
-          }}
-        >
-          <Typography variant="subtitle2" textAlign={"center"}>
+      <Box >
+        <Box sx={{
+          width: '100vw',
+          height: '100vh',
+          position: 'fixed',
+          top: 0, 
+          left: 0,
+          zIndex: 100,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: confirmed ? "flex" : "none",
+          transition: 'all 0.5s ease-in-out',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }} >
+        <CircularProgress size={100}/>
+        </Box>
+        {/* Add the progressive bar here */}
+        <Box sx={{
+          ...defaultBarSx("background.appBar2"),
+          top: "80px",
+        }} >
+          <Typography variant="subtitle2" textAlign={"center"} gutterBottom>
             {subTotalPercentage === 100
               ? "Envío Gratis!"
               : `Solo te faltan ${formatter.format(
-                  remaining
-                )} para el envío Gratis!`}
+                remaining
+              )} para el envío Gratis!`}
           </Typography>
-
-          <BorderLinearProgress
-            variant="determinate"
-            value={subTotalPercentage}
-          />
-        </AppBar>
+          <BorderLinearProgress value={subTotalPercentage} />
+        </Box>
         <Grid
           container
           spacing={2}
-          sx={{
-            overflowY: "auto",
-          }}
-        >
+          sx={{overflowY: "auto"}} >
           {line_items.map((item) => (
             <Grid item xs={12} md={6} key={item.id}>
               <CartItem
@@ -160,6 +202,7 @@ const Cart = () => {
           ¿Quieres comprar más productos?
         </Typography>
         <Button
+          size="small"
           variant="contained"
           color="primary"
           onClick={() => navigate("/products")}
@@ -172,6 +215,7 @@ const Cart = () => {
           ¿Quieres vaciar tu carrito?
         </Typography>
         <Button
+          size="small"
           variant="contained"
           color="secondary"
           onClick={handleEmptyCart}
@@ -180,23 +224,18 @@ const Cart = () => {
           Vaciar carrito
         </Button>
       </Box>
-      <AppBar
-        position="fixed"
-        sx={{
-          top: "auto",
-          bottom: 0,
-          padding: "0  16px",
-          bgcolor: "background.appBar",
-          color: "white",
-        }}
-      >
+      <Box sx={{
+        ...defaultBarSx("background.appBar"),
+        bottom: 0,
+        top: "auto",
+      }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "row",
             alignItems: "center",
-            margin: "16px 0 10px",
+            margin: "10px 0 ",
           }}
         >
           <Typography variant="h6">SUBTOTAL:</Typography>
@@ -209,15 +248,13 @@ const Cart = () => {
           color="primary"
           onClick={() => {
             dispatch(setConfirmed(true));
-            setConfirmedIsLoading(true);
           }}
-          sx={{ width: "100%", marginBottom: "16px" }}
-          disabled={confirmedIsLoading}
+          sx={{ width: "100%", marginBottom: "10px"}}
+          disabled={confirmed}
         >
           Comprar ahora <ShoppingCartCheckoutIcon />
         </Button>
-      </AppBar>
-      {/* {cart.line_items.length !== products.length && fetchData()} */}
+      </Box>
     </>
   );
 
@@ -233,8 +270,17 @@ const Cart = () => {
       {!isLoadingProduct && !isLoadingCart ? (
         <Container
           sx={{
-            padding: "80px 10px 0",
-            bgcolor: "background.paper",
+            position: "relative",
+            top: "0px",
+            padding: total_items ? "160px 8px 150px " : "0px 0px 0px",
+            bgcolor: total_items ? "background.paper" : "none",
+            border: {
+              xs: "none",
+              lg: total_items ? "2px solid" : "none",
+            },
+            borderColor: {
+              lg: "background.cart"
+            },
             minHeight: "100vh",
           }}
         >

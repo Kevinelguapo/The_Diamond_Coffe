@@ -11,7 +11,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "./FormInput";
 import { commerce } from "../../lib/commerce";
 import { Link } from "react-router-dom";
-import TextField from '@mui/material/TextField';
 
 const AddressForm = ({ checkoutToken, next }) => {
   const [shippingCountries, setShippingCountries] = useState([]);
@@ -101,7 +100,7 @@ const AddressForm = ({ checkoutToken, next }) => {
           <FormInput control={control} name="email" label="Email" required={true} />
           <FormInput control={control} name="address" label="Address" required={true} />
           <FormInput control={control} name="city" label="City" required={true} />
-          <FormInput control={control} name="zip" label="Zip / Postal Code" required={true} />
+          {/* <FormInput control={control} name="zip" label="Zip / Postal Code" required={true} /> */}
 
           <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Country</InputLabel>
@@ -157,20 +156,6 @@ const AddressForm = ({ checkoutToken, next }) => {
           </Button>
         </div>
       </form>
-
-      {/* <FormProvider {...methods}>
-        <form onSubmit=''>
-          <Grid container spacing={3}>
-            <FormInput name='firstName' required='required' label='First Name' />
-            <FormInput name='lastName' required='required' label='Last Name' />
-            <FormInput name='email' required='required' label='Email' />
-            <FormInput name='address' required='required' label='Address' />
-            <FormInput name='city' required='required' label='City' />
-            <FormInput name='zip'  label='ZIP / Postal Code' />
-
-          </Grid>
-        </form>
-      </FormProvider> */}
     </>
   );
 };

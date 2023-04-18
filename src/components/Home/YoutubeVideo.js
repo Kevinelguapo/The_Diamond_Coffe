@@ -8,13 +8,8 @@ const YoutubeVideo = ({ embedId }) => {
       component="iframe"
       src={`https://www.youtube.com/embed/${embedId}?loop=1`}
       sx={{
-        height: {
-          xs: "350px",
-          sm: "400px",
-          md: "500px",
-          lg: "550px",
-          xl: "600px",
-        },
+        height: "auto",
+        minHeight: "400px",
         padding: "10px 0 0",
         bgcolor: "background.appBar",
       }}
@@ -23,7 +18,7 @@ const YoutubeVideo = ({ embedId }) => {
       title="Embedded youtube"
       frameBorder={0}
      
-    ></CardMedia>
+    />
   );
 };
 

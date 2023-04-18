@@ -15,6 +15,7 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
+import FormSkeleton from "../FormSkeleton";
 import { commerce } from "../../../lib/commerce";
 import { useSelector } from "react-redux";
 
@@ -33,6 +34,7 @@ const Checkout = () => {
         type: "cart",
       });
       setCheckoutToken(token);
+      console.log("token", token);
     } catch (error) {
       console.log("Error generating token", error);
     }
@@ -97,19 +99,15 @@ const Checkout = () => {
           <Confirmation />
         ) : (
           <>
-            {checkoutToken && getStepContent(activeStep)}
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {checkoutToken ? getStepContent(activeStep) : <FormSkeleton />}
+            <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
               {activeStep !== 0 && (
-                <Button onClick={backStep} sx={{ mt: 3, ml: 1 }}>
+                <Button variant="outlined" onClick={backStep} sx={{ mt: 3, ml: 1 }} >
                   Back
                 </Button>
               )}
               {activeStep == steps.length - 1 && 
-              <Button
-                variant="contained"
-                onClick={nextStep}
-                sx={{ mt: 3, ml: 1 }}
-              >
+              <Button variant="contained" onClick={nextStep} sx={{ mt: 3, ml: 1 }} >
                 Place Order
               </Button>
               }

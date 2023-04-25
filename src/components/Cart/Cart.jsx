@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
 import { Dialog, Skeleton, } from "@mui/material";
 import { PropaneTankSharp } from "@mui/icons-material";
+import CoffeeIcon from '@mui/icons-material/Coffee';
 
 const BorderLinearProgress = (props) => (
   // the previous props was {...props}
@@ -116,10 +117,42 @@ const Cart = () => {
       },
       borderColor: {
         xs: "none",
-        lg: "background.cart",
+        lg: "border.grey",
       }
     };
   }
+
+  const CoffeeDivider = (
+    <Box sx={{
+      width: "100%",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "16px",
+      my: "16px",
+    }}>
+      <Divider
+        sx={{
+          width: "40%",
+          height: "1px",
+          bgcolor: "divider.coffee",
+          my: "16px",
+        }}
+      />
+      <CoffeeIcon sx={{
+        color: "divider.coffee",
+      }} />
+      <Divider
+        sx={{
+          width: "40%",
+          height: "1px",
+          bgcolor: "divider.coffee",
+          my: "16px",
+        }}
+      />
+    </Box>
+  )
 
 
   const EmptyCart = () => (
@@ -197,7 +230,7 @@ const Cart = () => {
             </Grid>
           ))}
         </Grid>
-        <Divider sx={{ margin: "20px 0" }} />
+        {CoffeeDivider}
         <Typography variant="h6" textAlign="center">
           ¿Quieres comprar más productos?
         </Typography>
@@ -210,7 +243,9 @@ const Cart = () => {
         >
           Ir a la tienda
         </Button>
-        <Divider sx={{ margin: "20px 0" }} />
+        <br /> 
+        <br />
+
         <Typography variant="h6" textAlign="center">
           ¿Quieres vaciar tu carrito?
         </Typography>
@@ -225,7 +260,7 @@ const Cart = () => {
         </Button>
       </Box>
       <Box sx={{
-        ...defaultBarSx("background.appBar"),
+        ...defaultBarSx("background.appBar2"),
         bottom: 0,
         top: "auto",
       }}>
@@ -273,13 +308,13 @@ const Cart = () => {
             position: "relative",
             top: "0px",
             padding: total_items ? "160px 8px 150px " : "0px 0px 0px",
-            bgcolor: total_items ? "background.paper" : "none",
+            bgcolor: total_items ? "background.default" : "none",
             border: {
               xs: "none",
               lg: total_items ? "2px solid" : "none",
             },
             borderColor: {
-              lg: "background.cart"
+              lg: "border.darkGrey"
             },
             minHeight: "100vh",
           }}

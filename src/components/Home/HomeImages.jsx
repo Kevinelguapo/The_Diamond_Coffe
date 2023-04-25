@@ -67,8 +67,8 @@ const HomeImages = ({ aboutUsSx }) => {
       borderRadius: "8px",
       width: "100%",
       objectFit: "contain",
-      border: "2px solid",
-      borderColor: "background.cart",
+      border: "1px solid",
+      borderColor: "border.grey",
       margin: "0 0 8px",
     },
   };
@@ -108,7 +108,15 @@ const HomeImages = ({ aboutUsSx }) => {
         onClose={handleImageClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{margin: "auto"}}
+        sx={{
+          margin: "auto",
+          ".MuiDialog-paper": {
+            pb: 2,
+            borderRadius: "8px",
+            border: "1px solid",
+            borderColor: "border.grey",
+          },
+        }}
       >
         <DialogTitle id="alert-dialog-title">{images[selectedImageIndex]?.title}</DialogTitle>
         <DialogContent sx={imageSx}>

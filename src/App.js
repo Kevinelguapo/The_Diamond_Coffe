@@ -17,29 +17,36 @@ import {
   responsiveFontSizes,
 } from "@mui/material/styles";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { teal, cyan } from "@mui/material/colors";
+import { teal, cyan, grey, blueGrey } from "@mui/material/colors";
 
 let theme = createTheme({
   palette: {
     background: {
-      default: "#fff",
-      paper: "#F9F3EE",
-      cart: "#DFD3C3", // a darker paper
+      default: "#000",
+      paper: "#2C3639",
+      darkPaper: "#2C3333",
       appBar: "#000",
-      appBar2: "#596E79",
-      darkGrey: "#333",
-      lightGrey: "#ccc",
-    },
-    text: {
-      primary: "#000",
+      appBar2: "#2E4F4F",
       white: "#fff",
     },
-    youtubeStepper: {
-      active: "#DFD3C3",
-      disabled: "#ccc",
-    },
 
-    mode: "light",
+    border: {
+      main: teal[600],
+      grey: blueGrey["A100"],
+      darkGrey: blueGrey["A400"],
+      darkCoffee: "#7A5A3F",
+      lightCoffee: "#F4DFBA",
+      lightCoffee2: "#DCD7C9",
+
+    },
+    
+    divider: {
+      main: teal[900],
+      light: teal["100"],
+      coffee: "#CBAF87",
+      gold: "#FFD966", 
+      // gold: FFD966
+    },
 
     primary: {
       main: teal[600],
@@ -47,16 +54,34 @@ let theme = createTheme({
       light: teal[100],
       contrastText: "#fff",
     },
-    secondary: cyan,
+    secondary: {
+      main: cyan[600],
+      dark: cyan[900],
+      light: cyan[100],
+    },
+    coffee: {
+      main: "#A27B5C",
+      dark: "#7A5A3F",
+      light: "#DCD7C9",
+    },
     action: {
-      active: teal[900],
-      disabled: teal[100],
+      active: teal[50],
+      disabled: teal[900],
+    },
+    text: {
+      primary: "#fff",
+      secondary: "#000",
+      disabled: "rgba(0,0,0,0.38)",
     },
   },
   typography: {
-    fontFamily: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
+    h1: {
+      fontFamily: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
+    },
   },
 });
+
+document.body.style.color = theme.palette.text.primary;
 
 theme = responsiveFontSizes(theme, {
   breakpoints: ["xs", "sm", "md", "lg", "xl"],

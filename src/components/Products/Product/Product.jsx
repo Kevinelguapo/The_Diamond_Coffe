@@ -124,14 +124,14 @@ const Product = ({ product }) => {
     <>
       {" "}
       {!isLoadingProducts ? (
-        <Card sx={{ backgroundColor: "white"}}>
+        <Card>
           <Box>
             <CardMedia
               component="img"
               image={product.assets[activeStep].url}
               alt={product.assets[activeStep].filename}
               height="250"
-              sx={{ objectFit: "contain" }}
+              sx={{ objectFit: "contain", backgroundColor: "background.white" }}
             />
             <MobileStepper
               variant="dots"
@@ -140,7 +140,7 @@ const Product = ({ product }) => {
               activeStep={activeStep}
               nextButton={
                 <IconButton
-                  size="small"
+                  size="medium"
                   onClick={handleNext}
                   disabled={activeStep === maxSteps - 1}
                 >
@@ -149,13 +149,19 @@ const Product = ({ product }) => {
               }
               backButton={
                 <IconButton
-                  size="small"
+                  size="medium"
                   onClick={handleBack}
                   disabled={activeStep === 0}
                 >
                   <KeyboardArrowLeft />
                 </IconButton>
               }
+              sx={{
+                backgroundColor: "background.darkPaper",
+                "& .MuiMobileStepper-dotActive": {
+                  backgroundColor: "action.active",
+                }
+              }}
             />
           </Box>
 
@@ -179,7 +185,6 @@ const Product = ({ product }) => {
                 }}
                 dangerouslySetInnerHTML={{ __html: product.description }}
                 variant="body2"
-                color="textSecondary"
               />
               <IconButton
                 onClick={handleChangeDescription}
@@ -191,7 +196,7 @@ const Product = ({ product }) => {
                   transition: "transform 0.25s ease-in-out",
                 }}
               >
-                <ExpandMoreIcon sx={{ color: "black" }} />
+                <ExpandMoreIcon />
               </IconButton>
             </Box>
           </CardContent>
@@ -199,8 +204,11 @@ const Product = ({ product }) => {
             <Box>
               {product?.variant_groups?.map((variant, idx) => {
                 return (
-                  <FormControl key={variant.id} sx={{ m: 1 }} size="small">
-                    <InputLabel sx={{ zIndex: 0 }} id="demo-select-small">
+                  <FormControl key={variant.id} sx={{
+                     m: 1,
+                     '& .MuiOutlinedInput-notchedOutline': { borderColor: 'border.darkGrey' },
+                     }} size="small">
+                    <InputLabel sx={{ zIndex: 0, color: "text.primary" }} id="demo-select-small">
                       {variant.name}
                     </InputLabel>
                     <Select

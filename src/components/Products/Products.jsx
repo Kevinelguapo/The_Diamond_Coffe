@@ -32,7 +32,8 @@ const Products = () => {
                 },
               },
               zIndex: 1,
-              borderBottom: "1px solid #2C3639",
+              borderBottom: "1px solid",
+              borderColor: "border.darkGrey",
             }}
           >
             <Button key={"all"} value="All" onClick={() => setCategorie("All")}>
@@ -55,7 +56,8 @@ const Products = () => {
             sx={{
               flexGrow: 1,
               padding: "138px 8px 16px",
-              bgcolor: "background.paper",
+              bgcolor: "background.default",
+              minHeight: "calc(100vh + 40px)",
             }}
           >
             {products.map((product) => (

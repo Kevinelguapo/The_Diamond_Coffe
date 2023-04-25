@@ -98,39 +98,44 @@ const CartItem = ({ item, formatter, handleEmptyCart }) => {
   return (
     <Card
       sx={{
-        ...spacedRowSx,
-        "@media (max-width: 300px)": {
+        display: "flex",
+        flexDirection: "row",
+        "@media (max-width: 380px)": {
           flexDirection: "column",
-          p: "16px 0",
+          p: "0",
         },
-        p: "0",
-        m: "0",
-        bgcolor: "background.default",
-        minHeight: "136.62px",
+        bgcolor: "background.paper",
+        alignItems: "flex-start",
+        border: "1px solid",
+        borderColor: "border.darkGrey",
+        alignItems: "center",
       }}
     >
+
       <CardMedia
         component="img"
         image={item.image.url}
         alt={item.name}
-        // height="100"
         sx={{
-          padding: "0 0 0 16px",
-          "@media (max-width: 300px)": {
+          padding: "0 16px",
+          "@media (max-width: 380px)": {
             padding: "0 16px 16px",
+            width: "100%",
           },
-          objectFit: "contain",
-          width: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
-          height: { xs: 80, sm: 100, md: 120, lg: 120, xl: 120 },
+          objectFit: "scale-down",
+          bgcolor: "background.white",
+          height: "160px",
+          width: "120px",
         }}
       />
+
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <CardContent sx={{ padding: "16px 16px 8px" }}>
           <Box sx={spacedRowSx}>
             <Typography variant="h6" component="div">
               {item.name}
             </Typography>
-            <Typography variant="subtitle1">
+            <Typography variant="subtitle1" sx={{pl: "16px"}} >
               {formatter.format(item.line_total.raw)}
             </Typography>
           </Box>

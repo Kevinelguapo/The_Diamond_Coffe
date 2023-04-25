@@ -82,11 +82,10 @@ export const Contact = () => {
           sx={{
             "& .MuiDialog-paper": {
               backgroundColor: "background.paper",
-              color: "text.primary",
-              padding: "8px 8px 0",
+              padding: "16px 8px 0",
               borderRadius: "8px",
-              border: "2px solid",
-              borderColor: "background.cart",
+              border: "1px solid",
+              borderColor: "border.grey",
             },
           }}
 
@@ -100,7 +99,7 @@ export const Contact = () => {
                     <Avatar sx={{
                       color: "primary.main", bgcolor: "background.default",
                       border: "1px solid",
-                      borderColor: "background.cart",
+                      borderColor: "border.darkGrey",
                     }}>
                       <CallIcon />
                     </Avatar>
@@ -114,7 +113,7 @@ export const Contact = () => {
             position: "absolute",
             top: 0,
             right: 0,
-            color: "background.cart"
+            color: "primary.light"
           }}>
             <CloseIcon />
           </IconButton>

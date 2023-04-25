@@ -18,7 +18,6 @@ import HomeImages from "./HomeImages";
 import { Contact } from "./Contact";
 import { useNavigate } from "react-router-dom";
 
-
 const Home = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -36,6 +35,12 @@ const Home = () => {
       title: "Video 3",
       embedId: "teVxpgm74Uw",
       //url: video3,
+    },
+    {
+      id: 3,
+      title: "Video 2",
+      embedId: "wKI-ngRQJ90",
+      //url: video2,
     },
   ];
 
@@ -61,12 +66,11 @@ const Home = () => {
       md: 450,
     },
     border: "1px solid",
-    borderColor: "background.lightGrey",
+    borderColor: "border.grey",
     borderRadius: "8px",
     boxSizing: "border-box",
     padding: "8px",
-    bgcolor: "background.darkGrey",
-    color: "text.white",
+    bgcolor: "background.paper",
   }
 
   const CoffeeDivider = (
@@ -83,18 +87,18 @@ const Home = () => {
         sx={{
           width: "30%",
           height: "1px",
-          bgcolor: "background.cart",
+          bgcolor: "divider.coffee",
           my: "16px",
         }}
       />
       <CoffeeIcon sx={{
-        color: "background.cart",
+        color: "divider.coffee",
       }} />
       <Divider
         sx={{
           width: "30%",
           height: "1px",
-          bgcolor: "background.cart",
+          bgcolor: "divider.coffee",
           my: "16px",
         }}
       />
@@ -156,7 +160,7 @@ const Home = () => {
     <Box
       sx={{
         padding: "80px 0 0",
-        bgcolor: "background.appBar",
+        bgcolor: "background.default",
         color: "text.white",
         display: "flex",
         flexDirection: "column",
@@ -183,7 +187,6 @@ const Home = () => {
 
       <YoutubeVideo embedId={embededVideos[activeStep].embedId} />
       <MobileStepper
-        variant="dots"
         steps={maxSteps}
         position="static"
         activeStep={activeStep}
@@ -192,9 +195,6 @@ const Home = () => {
             size="medium"
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
-            sx={{
-              bgcolor: "background.cart",
-            }}
           >
             <KeyboardArrowRight />
           </IconButton>
@@ -204,9 +204,6 @@ const Home = () => {
             size="medium"
             onClick={handleBack}
             disabled={activeStep === 0}
-            sx={{
-              bgcolor: "background.cart",
-            }}
           >
             <KeyboardArrowLeft />
           </IconButton>
@@ -216,6 +213,9 @@ const Home = () => {
           width: "100%",
           mb: "16px",
           boxSizing: "border-box",
+          "& .MuiMobileStepper-dotActive": {
+            backgroundColor: "action.active",
+          }
         }}
       />
 
@@ -237,12 +237,8 @@ const Home = () => {
             <Typography variant="h4" component="h1" align="center">
               Nuestra Historia
             </Typography>
-            <Divider sx={{
-              width: "100%",
-              height: "1px",
-              bgcolor: "background.cart",
-              my: "16px",
-            }} />
+            <Divider sx={{ m: "16px", bgcolor: "border.grey" }} />
+
 
             <Typography variant="body2" align="center">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
@@ -260,7 +256,7 @@ const Home = () => {
         </Box>
       </Box>
       {CoffeeDivider}
-      <Box sx={{ textAlign: 'center', bgcolor: 'grey.800', color: 'white', py: 3, width: "100vw" }}>
+      <Box sx={{ textAlign: 'center', bgcolor: 'background.darkPaper', py: 3, width: "100vw" }}>
         <Typography variant="body2" color="inherit">
           © {new Date().getFullYear()} Coffee The Diamond Don Boli. All rights reserved.
         </Typography>

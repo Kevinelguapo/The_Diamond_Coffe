@@ -38,22 +38,23 @@ const Navbar = () => {
       sx={{
         bgcolor: "background.appBar",
         color: "white",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
       }}
     >
-      <Container sx={{ height: "80px", margin: 0}} maxWidth={false}>
+      <Container sx={{ height: "80px", margin: 0 }} maxWidth={false}>
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
-          <IconButton
+          <Box
             component={Link}
             to="/"
             edge="start"
             sx={{
               display: { xs: "none", md: "flex" },
-              margin: "0 24px 0 0",
-              width: "170px",
+              margin: "0 24px",
+              width: "150px",
             }}
           >
             <MyLogo fill="black" stroke="white" />
-          </IconButton>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, idx) => (
               <Button
@@ -113,10 +114,10 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton component={Link} to="/" sx={{ width: "170px" }}>
-              <MyLogo fill="black" stroke="white" />
-            </IconButton>
+          <Box sx={{
+            flexGrow: 1, display: { xs: "flex", md: "none" }
+          }}>
+            <MyLogo fill="black" stroke="white" height={56} />
           </Box>
           <IconButton
             aria-label="cart"

@@ -124,9 +124,10 @@ const CartItem = ({ item, formatter, handleEmptyCart }) => {
           },
           objectFit: "scale-down",
           bgcolor: "background.white",
-          height: "160px",
-          width: "120px",
+          height: "140px",
+          width: "40%",
         }}
+
       />
 
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>

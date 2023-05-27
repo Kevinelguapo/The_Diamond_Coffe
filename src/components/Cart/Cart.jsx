@@ -19,10 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setConfirmed, setCart, setEmptyCart } from "../../store";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stack } from "@mui/system";
-import { Dialog, Skeleton, } from "@mui/material";
-import { PropaneTankSharp } from "@mui/icons-material";
 import CoffeeIcon from '@mui/icons-material/Coffee';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const BorderLinearProgress = (props) => (
   // the previous props was {...props}
@@ -48,7 +46,7 @@ const BorderLinearProgress = (props) => (
   />
 );
 
-const Cart = () => {
+const Cart = ({ formatter }) => {
   const { subtotal, total_items, line_items } = useSelector(
     (state) => state.cart.cart
   );
@@ -96,33 +94,12 @@ const Cart = () => {
       boxSizing: "border-box",
       border: "none",
       width: "100%",
-      bgcolor: {
-        xs: bgColor,
-        // lg: "background.paper",
-      },
-      color: {
-        xs: "white",
-        // lg: "black",
-      },
-      margin: "0 auto",
-      maxWidth: "1196px",
+      bgcolor: bgColor,
       zIndex: 1,
-      borderTop: {
-        xs: "none",
-        lg: "2px solid",
-      },
-      borderBottom: {
-        xs: "none",
-        lg: "2px solid",
-      },
-      borderColor: {
-        xs: "none",
-        lg: "border.grey",
-      }
     };
   }
 
-  const CoffeeDivider = (
+  const CoffeeDivider = () => (
     <Box sx={{
       width: "100%",
       display: "flex",
@@ -154,17 +131,41 @@ const Cart = () => {
     </Box>
   )
 
+  const flexColumn = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  }
+
+  const ShoppingButton = ({display}) => (
+    <Button
+      size="medium"
+      type="button"
+      variant="contained"
+      color="primary"
+      onClick={() => {
+        dispatch(setConfirmed(true));
+      }}
+      sx={{
+        width: { xs: "100%", sm: "40%" }, marginBottom: "10px",
+        maxWidth: {
+          xs: "none",
+          sm: "250px",
+        },
+        display: display,
+
+      }}
+      disabled={confirmed}
+    >
+      Comprar ahora <ShoppingCartCheckoutIcon />
+    </Button>
+  )
+
 
   const EmptyCart = () => (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "0 20px",
-        height: "100vh",
-      }}
+      sx={{...flexColumn, height: "100vh", gap: "16px", padding: "0 32px"}}
     >
       <Typography gutterBottom variant="h5" align="center" >
         NO HAY PRODUCTOS EN TU CARRITO!
@@ -172,35 +173,35 @@ const Cart = () => {
       <Typography gutterBottom variant="h6" align="center" >
         Agrega productos a tu carrito para comprar
       </Typography>
-      <br/>
+      <br />
       <Button
         variant="contained"
         color="primary"
         onClick={() => navigate("/products")}
-        sx={{ marginTop: "10px", width: "100%", maxWidth: "500px" }}
+        sx={{ marginTop: "10px", width: "100%", maxWidth: "400px" }}
       >
         Ir a la tienda
-        <ShoppingCartCheckoutIcon sx={{ marginLeft: "10px" }} />
+        <KeyboardReturnIcon sx={{ marginLeft: "10px" }} />
       </Button>
     </Box>
   );
   const FilledCart = () => (
     <>
-      <Box >
+      <Box sx={flexColumn} >
         <Box sx={{
           width: '100vw',
           height: '100vh',
           position: 'fixed',
-          top: 0, 
+          top: 0,
           left: 0,
           zIndex: 100,
-          backgroundColor: 'rgba(0,0,0,0.5)',
           display: confirmed ? "flex" : "none",
           transition: 'all 0.5s ease-in-out',
+          bgcolor: 'rgba(0,0,0,0.5)',
           alignItems: 'center',
           justifyContent: 'center',
         }} >
-        <CircularProgress size={100}/>
+          <CircularProgress size={100} />
         </Box>
         {/* Add the progressive bar here */}
         <Box sx={{
@@ -219,7 +220,7 @@ const Cart = () => {
         <Grid
           container
           spacing={2}
-          sx={{overflowY: "auto"}} >
+          sx={{ overflowY: "auto" }} >
           {line_items.map((item) => (
             <Grid item xs={12} md={6} key={item.id}>
               <CartItem
@@ -230,31 +231,31 @@ const Cart = () => {
             </Grid>
           ))}
         </Grid>
-        {CoffeeDivider}
+        <CoffeeDivider/>
         <Typography variant="h6" textAlign="center">
           ¿Quieres comprar más productos?
         </Typography>
         <Button
-          size="small"
+          size="medium"
           variant="contained"
           color="primary"
           onClick={() => navigate("/products")}
-          sx={{ marginTop: "10px", width: "100%" }}
+          sx={{ margin: "16px auto", width: "100%", maxWidth: "400px" }}
         >
           Ir a la tienda
         </Button>
-        <br /> 
+        <br />
         <br />
 
         <Typography variant="h6" textAlign="center">
           ¿Quieres vaciar tu carrito?
         </Typography>
         <Button
-          size="small"
+          size="medium"
           variant="contained"
           color="secondary"
           onClick={handleEmptyCart}
-          sx={{ marginTop: "10px", width: "100%" }}
+          sx={{ margin: "16px auto", width: "100%", maxWidth: "400px" }}
         >
           Vaciar carrito
         </Button>
@@ -267,38 +268,33 @@ const Cart = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: {xs: "space-between", sm: "flex-end"},
             flexDirection: "row",
             alignItems: "center",
             margin: "10px 0 ",
+            gap: "16px",
           }}
         >
-          <Typography variant="h6">SUBTOTAL:</Typography>
+          <Button color="primary"
+          onClick={() => navigate("/products")}
+          
+           sx={{display: {xs: "none", sm: "inline"}, position: "absolute", left: 10, ":hover": {
+              bgcolor: "primary.main"
+           }}}>
+            <Box sx={{display: "flex", alignItems: "center", gap: "10px", color: "text.primary"}}>
+            <KeyboardReturnIcon /> <Typography  sx={{display:{sm: "none", md: "flex"}}} >Seguir mercando</Typography>
+            </Box>
+          </Button>
+  
+          <Typography variant="h5">Subtotal : </Typography>
           <Typography variant="h5">{formatter.format(subTotal)}</Typography>
+
+          <ShoppingButton display={{xs: "none", sm: "flex"}} />
         </Box>
-        <Button
-          size="medium"
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            dispatch(setConfirmed(true));
-          }}
-          sx={{ width: "100%", marginBottom: "10px"}}
-          disabled={confirmed}
-        >
-          Comprar ahora <ShoppingCartCheckoutIcon />
-        </Button>
+        <ShoppingButton display={{xs: "flex", sm: "none"}} />
       </Box>
     </>
   );
-
-  // Create our number formatter.
-  const formatter = new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  });
 
   return (
     <>
@@ -307,11 +303,15 @@ const Cart = () => {
           sx={{
             position: "relative",
             top: "0px",
-            padding: total_items ? "160px 8px 150px " : "0px 0px 0px",
-            bgcolor: total_items ? "background.default" : "none",
+            padding: total_items ? "160px 8px 150px " : 0,
+            bgcolor: {
+             xs : "none",
+             lg : "background.darkPaper",
+            },
+
             border: {
               xs: "none",
-              lg: total_items ? "2px solid" : "none",
+              lg: total_items ? "1px solid "  : "none",
             },
             borderColor: {
               lg: "border.darkGrey"

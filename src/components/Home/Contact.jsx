@@ -19,7 +19,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import CloseIcon from '@mui/icons-material/Close';
-import { bgcolor } from '@mui/system';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -45,24 +44,24 @@ export const Contact = () => {
     <>
       <Box
         sx={{
-          position: "absolute",
-          bottom: "0%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          position: "fixed",
+          bottom: 0,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           gap: "16px",
-          mt: "16px",
-          '& .MuiIconButton-root': { color: 'white' },
-
+          '& .MuiIconButton-root': { color: 'white'},
+          bgcolor: "rgba(0,0,0,0.85)",
+          width: "100%",
+          height: "64px",
+          zIndex: 99,
         }}
       >
         < IconButton
           href="https://www.instagram.com/thediamond_coffee/"
           target="_blank"
         >
-          <InstagramIcon sx={{ color: "#fff" }} />
+          <InstagramIcon />
         </IconButton>
         <IconButton href="https://wa.me/573112523386" target="_blank">
           <WhatsAppIcon />

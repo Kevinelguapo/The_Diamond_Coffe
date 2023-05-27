@@ -11,38 +11,38 @@ const HomeImages = ({ aboutUsSx }) => {
 
   const images = [
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/poster.jpg",
-      title: 'Poster',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/WhatsApp-Image-2023-05-26-at-11.53.34-AM.jpg",
+      title: 'Leidy',
       id: 1,
-      description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit some description Lorem ipsum dolor sit amet consectetur adipisicing elit somoe description about this image that i'll put for the user to know what is all about or what is that mean."
+      description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Ubicaci%C3%B3n.jpg",
-      title: 'Ubicación',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/IMG_4637.JPEG",
+      title: 'Alex',
       id: 2,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/geishabeans.jpg",
-      title: 'Geisha Beans',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/IMG_4636.JPEG",
+      title: 'Café',
       id: 3,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit somoe description about this image that i'll put for the user to know what is all about or what is that mean."
     },
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Presentaci%C3%B3n.jpg",
-      title: 'Presentación',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/IMG_1031.JPEG",
+      title: 'Proceso de café',
       id: 4,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/poster.jpg",
-      title: 'Poster',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/IMG_1030.JPEG",
+      title: 'Café',
       id: 5,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
-      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/Paper-coffee-bag-on-transparent-background-PNG.png",
-      title: 'Paper coffee bag',
+      url: "https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/HomeImages/IMG_5093.JPEG",
+      title: 'Café',
       id: 6,
       description: "some description Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },

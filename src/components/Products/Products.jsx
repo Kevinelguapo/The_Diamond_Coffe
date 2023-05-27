@@ -3,7 +3,7 @@ import Product from "./Product/Product";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-const Products = () => {
+const Products = ({formatter}) => {
   const [categorie, setCategorie] = useState("All");
 
   const { products } = useSelector((state) => state.products);
@@ -66,7 +66,7 @@ const Products = () => {
                 product.categories.filter((c) => c.name === categorie)
                   .length ? (
                   <Grid item xs={12} sm={6} md={4}>
-                    <Product product={product} />
+                    <Product product={product} formatter={formatter} />
                   </Grid>
                 ) : null}
               </React.Fragment>

@@ -1,28 +1,38 @@
 import React from "react";
 import { Typography, List, ListItem, ListItemText } from "@mui/material";
 
-const Review = ({ checkoutToken }) => {
+const Review = ({ checkoutToken, formatter }) => {
   return (
     <>
       <Typography variant="h6" gutterBottom>
         Order Summary
       </Typography>
       <List disablePadding>
-        {checkoutToken.line_items.map((product) => (
+        {checkoutToken.line_items.map((product) =>
+        (
           <ListItem style={{ padding: "10px 0" }} key={product.name}>
             <ListItemText
               primary={product.name}
               secondary={`Quantity: ${product.quantity}`}
             />
+            <ListItemText  >
+              {product.selected_options.map((option) => (
+                <Typography key={option.group_id} variant="body2" color={"text.secondary"} >
+                  {` ${option.option_name} `}
+                </Typography>
+              ))}
+
+            </ListItemText>
+
             <Typography variant="body2">
-              {product.price.formatted_with_code}
+              {formatter.format(product.line_total.raw)}
             </Typography>
           </ListItem>
         ))}
         <ListItem style={{ padding: "10px 0" }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" style={{ fontWeight: 700 }}>
-            {checkoutToken.total.formatted_with_code}
+            {`${formatter.format(checkoutToken.total.raw)} COP`}
           </Typography>
         </ListItem>
       </List>

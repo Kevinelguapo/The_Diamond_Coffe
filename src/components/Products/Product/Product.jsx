@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { commerce } from "../../../lib/commerce";
 import { useState, useEffect } from "react";
 
-const Product = ({ product }) => {
+const Product = ({ product, formatter }) => {
   const [variantData, setVariantData] = useState({});
   const [options, setOptions] = useState([]);
   const [totalPrice, setTotalPrice] = useState(product?.price?.raw);
@@ -205,9 +205,9 @@ const Product = ({ product }) => {
               {product?.variant_groups?.map((variant, idx) => {
                 return (
                   <FormControl key={variant.id} sx={{
-                     m: 1,
-                     '& .MuiOutlinedInput-notchedOutline': { borderColor: 'border.darkGrey' },
-                     }} size="small">
+                    m: 1,
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'border.darkGrey' },
+                  }} size="small">
                     <InputLabel sx={{ zIndex: 0, color: "text.primary" }} id="demo-select-small">
                       {variant.name}
                     </InputLabel>
@@ -241,7 +241,12 @@ const Product = ({ product }) => {
         </Card>
       ) : (
         <Card>
-          <Skeleton variant="rectangular" height={200} animation="wave" />
+          <Skeleton variant="rectangular" height={250} animation="wave" />
+          {/* <Skeleton
+            animation="wave"
+            width="100%"
+            height={56}
+          /> */}
           <CardActions disableSpacing sx={rowStyle}>
             <Skeleton
               animation="wave"
@@ -260,10 +265,10 @@ const Product = ({ product }) => {
             <React.Fragment>
               <Skeleton
                 animation="wave"
-                height={10}
+                height={20}
                 style={{ marginBottom: 6 }}
               />
-              <Skeleton animation="wave" height={10} width="80%" />
+              <Skeleton animation="wave" height={20} width="80%" />
             </React.Fragment>
           </CardContent>
           <CardActions disableSpacing sx={rowStyle}>
@@ -277,11 +282,10 @@ const Product = ({ product }) => {
               <Skeleton animation="wave" width="40%" height={40} />
             </Box>
             <Skeleton
-              variant="circular"
               animation="wave"
-              width={30}
-              height={30}
-              //style={{ marginRight: 10 }}
+              width={40}
+              height={40}
+            //style={{ marginRight: 10 }}
             />
           </CardActions>
         </Card>
@@ -289,11 +293,5 @@ const Product = ({ product }) => {
     </>
   );
 };
-
-const formatter = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0,
-});
 
 export default Product;

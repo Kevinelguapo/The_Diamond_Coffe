@@ -97,9 +97,9 @@ const AddressForm = ({ checkoutToken, next }) => {
         <Grid container spacing={3}>
           <FormInput control={control} name="firstName" label="First Name" required={true} />
           <FormInput control={control} name="lastName" label="Last Name" required={false} />
-          <FormInput control={control} name="email" label="Email" required={true} />
-          <FormInput control={control} name="address" label="Address" required={true} />
-          <FormInput control={control} name="city" label="City" required={true} />
+          <FormInput control={control} name="email" label="Email" required={false} />
+          <FormInput control={control} name="address" label="Address" required={false} />
+          <FormInput control={control} name="city" label="City" required={false} />
           {/* <FormInput control={control} name="zip" label="Zip / Postal Code" required={true} /> */}
 
           <Grid item xs={12} sm={6}>

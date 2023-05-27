@@ -12,13 +12,13 @@ import {
 //import video3 from "../../assets/videos/DJI_0210.MP4";
 
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import CoffeeIcon from '@mui/icons-material/Coffee';
+
 
 import HomeImages from "./HomeImages";
 import { Contact } from "./Contact";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const Home = ({ CoffeeDivider }) => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
@@ -26,18 +26,6 @@ const Home = () => {
   let embededVideos = [
     {
       id: 1,
-      title: "Video 1",
-      embedId: "ULjPSCGooy4",
-      //url: video1,
-    },
-    {
-      id: 2,
-      title: "Video 3",
-      embedId: "teVxpgm74Uw",
-      //url: video3,
-    },
-    {
-      id: 3,
       title: "Video 2",
       embedId: "wKI-ngRQJ90",
       //url: video2,
@@ -73,38 +61,6 @@ const Home = () => {
     bgcolor: "background.paper",
   }
 
-  const CoffeeDivider = (
-    <Box sx={{
-      width: "100%",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "16px",
-      my: "16px",
-    }}>
-      <Divider
-        sx={{
-          width: "30%",
-          height: "1px",
-          bgcolor: "divider.coffee",
-          my: "16px",
-        }}
-      />
-      <CoffeeIcon sx={{
-        color: "divider.coffee",
-      }} />
-      <Divider
-        sx={{
-          width: "30%",
-          height: "1px",
-          bgcolor: "divider.coffee",
-          my: "16px",
-        }}
-      />
-    </Box>
-  )
-
   const BgVideo = (
     <Box sx={{
       width: "100%",
@@ -112,7 +68,7 @@ const Home = () => {
       position: "relative",
     }} >
 
-      <video 
+      <video
         autoPlay
         loop
         muted
@@ -121,13 +77,12 @@ const Home = () => {
           width: "100%",
           height: "100%",
           position: "absolute",
-          top: "0",
-          left: "0",
+          top: 0,
+          left: 0,
         }}
         src={"https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/backgrounds/DJI_0206.MP4"}
       />
-
-      <Box sx={{
+      {/* <Box sx={{
         position: "absolute",
         top: "50%",
         left: "50%",
@@ -139,27 +94,24 @@ const Home = () => {
         gap: "16px",
         textAlign: "center",
         color: "text.white",
-        bgcolor: "rgba(0,0,0,0.4)",
+        bgcolor: "rgba(0,0,0,0.2)",
         width: "100%",
         height: "100%",
         padding: "16px",
         boxSizing: "border-box",
       }} >
-        <Typography variant="h2" component="h1" align="center">
-          WELLCOME TO
+        <Typography variant="h2" component="h2">
+          WELLCOME
         </Typography>
-        <Typography variant="h1" component="h1" align="center">
-          DIAMOND COFFEE
-        </Typography>
-      </Box>
 
+      </Box> */}
     </Box>
   )
 
   return (
     <Box
       sx={{
-        padding: "80px 0 0",
+        padding: "80px 0 64px",
         bgcolor: "background.default",
         color: "text.white",
         display: "flex",
@@ -170,54 +122,63 @@ const Home = () => {
     >
       {/* add a bg video here */}
       {BgVideo}
-      <Contact />
       {CoffeeDivider}
-
-      {/* <Button variant="contained" onClick={
-        () => navigate("/products")
-      } >
-        <Typography variant="h5" component="h1" align="center">
-          Nuestros Productos
-        </Typography>
-      </Button> */}
-
+      <Contact />
       <Typography variant="h2" component="h1" align="center" sx={{ mb: "16px" }}>
         Sobre Nosotros
       </Typography>
+      <Box sx={{
+        width: "100%",
+        bgcolor: "background.paper",
+        padding: {
+          xs: "none",
+          md: "16px 0"
+        },
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        mb: "16px",
 
-      <YoutubeVideo embedId={embededVideos[activeStep].embedId} />
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <IconButton
-            size="medium"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            <KeyboardArrowRight />
-          </IconButton>
-        }
-        backButton={
-          <IconButton
-            size="medium"
-            onClick={handleBack}
-            disabled={activeStep === 0}
-          >
-            <KeyboardArrowLeft />
-          </IconButton>
-        }
-        sx={{
-          bgcolor: "inherit",
-          width: "100%",
-          mb: "16px",
-          boxSizing: "border-box",
-          "& .MuiMobileStepper-dotActive": {
-            backgroundColor: "action.active",
+      }} >
+        <YoutubeVideo embedId={embededVideos[activeStep].embedId} />
+
+        <MobileStepper
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <IconButton
+              size="medium"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              <KeyboardArrowRight />
+            </IconButton>
           }
-        }}
-      />
+          backButton={
+            <IconButton
+              size="medium"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              <KeyboardArrowLeft />
+            </IconButton>
+          }
+          sx={{
+            bgcolor: "background.default",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+
+            width: {
+              xs: "100%",
+              md: "70%",
+            },
+            boxSizing: "border-box",
+            "& .MuiMobileStepper-dotActive": {
+              backgroundColor: "action.active",
+            }
+          }}
+        />
+      </Box>
 
       <Box sx={{ padding: "0 16px" }} >
         <Box sx={{
@@ -241,15 +202,8 @@ const Home = () => {
 
 
             <Typography variant="body2" align="center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptates, quod, quia, voluptate quae voluptatem quibusdam quos
-              voluptatum quas natus quidem. Quisquam, quae. Quisquam, quae. Quisquam,
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptates, quod, quia, voluptate quae voluptatem quibusdam quos
-              voluptatum quas natus quidem. Quisquam, quae. Quisquam, quae. Quisquam,
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptates, quod, quia, voluptate quae voluptatem quibusdam quos
-              voluptatum quas natus quidem. Quisquam, quae. Quisquam, quae. Quisquam,
+              La finca, anteriormente propiedad de generaciones pasadas, fue adquirida por la familia actual, quienes decidieron desarrollarla a través del cultivo del café y la construcción de diversas infraestructuras, como casas y un beneficiadero. En la actualidad, la finca alberga más de 50,000 árboles de café en plena producción. Inspirados por esta pasión cafetera, la familia decidió fundar la empresa "
+              The Diamond Coffee Don Boli", dedicada a la producción y envasado de café listo para disfrutar.
             </Typography>
           </Paper>
           <HomeImages aboutUsSx={aboutUsSx} />

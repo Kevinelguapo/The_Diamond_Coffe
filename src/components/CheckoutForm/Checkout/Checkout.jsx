@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 
 const steps = ["Shipping adress", "Payment details"];
 
-const Checkout = () => {
+const Checkout = ({formatter}) => {
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
@@ -75,6 +75,7 @@ const Checkout = () => {
         return <PaymentForm
           shippingData={shippingData}
           checkoutToken={checkoutToken}
+          formatter={formatter}
           backStep={backStep}
         />;
       default:
@@ -84,14 +85,14 @@ const Checkout = () => {
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mt:"100px", mb: 4 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }}}>
         <Typography component="h1" variant="h4" align="center">
           Checkout
         </Typography>
         <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }} >
           {steps.map((step) => (
             <Step key={step}>
-              <StepLabel>{step}</StepLabel>
+              <StepLabel  >{step}</StepLabel>
             </Step>
           ))}
         </Stepper>

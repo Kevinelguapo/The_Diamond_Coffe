@@ -8,8 +8,9 @@ import {
   IconButton,
   Button,
   Paper,
+  Stack,
 } from "@mui/material";
-//import video3 from "../../assets/videos/DJI_0210.MP4";
+
 
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
@@ -17,8 +18,9 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import HomeImages from "./HomeImages";
 import { Contact } from "./Contact";
 import { useNavigate } from "react-router-dom";
+import { CoffeeDivider } from "../../App";
 
-const Home = ({ CoffeeDivider }) => {
+const Home = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
@@ -27,13 +29,11 @@ const Home = ({ CoffeeDivider }) => {
     {
       id: 1,
       title: "Video 2",
-      embedId: "wKI-ngRQJ90",
-      //url: video2,
+      embedId: "xv3WBO1Ve48",
     },
   ];
 
   const maxSteps = embededVideos.length;
-
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -61,11 +61,12 @@ const Home = ({ CoffeeDivider }) => {
     bgcolor: "background.paper",
   }
 
-  const BgVideo = (
+  const BgVideo = () => (
     <Box sx={{
       width: "100%",
-      height: "calc(100vh - 80px)",
+      height: { xs: 'calc(50vh - 80px)', md: "calc(100vh - 200px)"},
       position: "relative",
+      mb: 2,
     }} >
 
       <video
@@ -75,71 +76,47 @@ const Home = ({ CoffeeDivider }) => {
         style={{
           objectFit: "cover",
           width: "100%",
-          height: "100%",
+          height: '100%',
           position: "absolute",
           top: 0,
           left: 0,
         }}
         src={"https://diamondcoffeevideos.s3.us-east-2.amazonaws.com/backgrounds/DJI_0206.MP4"}
       />
-      {/* <Box sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "16px",
-        textAlign: "center",
-        color: "text.white",
-        bgcolor: "rgba(0,0,0,0.2)",
-        width: "100%",
-        height: "100%",
-        padding: "16px",
-        boxSizing: "border-box",
-      }} >
-        <Typography variant="h2" component="h2">
-          WELLCOME
-        </Typography>
-
-      </Box> */}
     </Box>
   )
 
   return (
-    <Box
+    <Stack
       sx={{
-        padding: "80px 0 64px",
+        pb: "64px",
         bgcolor: "background.default",
         color: "text.white",
-        display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      {/* add a bg video here */}
-      {BgVideo}
-      {CoffeeDivider}
+      <BgVideo />
+      <CoffeeDivider />
       <Contact />
-      <Typography variant="h2" component="h1" align="center" sx={{ mb: "16px" }}>
-        Sobre Nosotros
-      </Typography>
-      <Box sx={{
-        width: "100%",
-        bgcolor: "background.paper",
-        padding: {
-          xs: "none",
-          md: "16px 0"
+      <Paper elevation={0} sx={{
+        bgcolor: {
+          xs: "background.default",
+          md: "background.darkPaper"
         },
+        padding: "0 0 16px",
         alignItems: "center",
         display: "flex",
         flexDirection: "column",
-        mb: "16px",
+        m: "0 0 16px 0 ",
+        borderRadius: "10px",
+
 
       }} >
+        <Typography variant="h3" align="center" sx={{ padding: {xs: "0 0 16px", md: "16px 0"} }}>
+          Sobre Nosotros
+        </Typography>
+
         <YoutubeVideo embedId={embededVideos[activeStep].embedId} />
 
         <MobileStepper
@@ -178,44 +155,44 @@ const Home = ({ CoffeeDivider }) => {
             }
           }}
         />
-      </Box>
+        <Divider sx={{m: 4, width: '80%'}} /> 
 
-      <Box sx={{ padding: "0 16px" }} >
-        <Box sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "16px 0 0",
-          gap: "16px",
+        <Box sx={{ padding: "0 16px" }} >
+          <Box sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "16px",
 
-        }}>
-          <Paper sx={{
-            ...aboutUsSx,
-            padding: "16px",
-            width: { ...aboutUsSx.width, md: 350, },
           }}>
-            <Typography variant="h4" component="h1" align="center">
-              Nuestra Historia
-            </Typography>
-            <Divider sx={{ m: "16px", bgcolor: "border.grey" }} />
+            <Paper sx={{
+              ...aboutUsSx,
+              padding: "16px",
+              width: { ...aboutUsSx.width, md: 350, },
+            }}>
+              <Typography variant="h4" component="h1" align="center">
+                Nuestra Historia
+              </Typography>
+              <Divider sx={{ m: "16px", bgcolor: "border.grey" }} />
 
 
-            <Typography variant="body2" align="center">
-              La finca, anteriormente propiedad de generaciones pasadas, fue adquirida por la familia actual, quienes decidieron desarrollarla a través del cultivo del café y la construcción de diversas infraestructuras, como casas y un beneficiadero. En la actualidad, la finca alberga más de 50,000 árboles de café en plena producción. Inspirados por esta pasión cafetera, la familia decidió fundar la empresa "
-              The Diamond Coffee Don Boli", dedicada a la producción y envasado de café listo para disfrutar.
-            </Typography>
-          </Paper>
-          <HomeImages aboutUsSx={aboutUsSx} />
+              <Typography variant="body2" align="center">
+                La finca, anteriormente propiedad de generaciones pasadas, fue adquirida por la familia actual, quienes decidieron desarrollarla a través del cultivo del café y la construcción de diversas infraestructuras, como casas y un beneficiadero. En la actualidad, la finca alberga más de 50,000 árboles de café en plena producción. Inspirados por esta pasión cafetera, la familia decidió fundar la empresa "
+                The Diamond Coffee Don Boli", dedicada a la producción y envasado de café listo para disfrutar.
+              </Typography>
+            </Paper>
+            <HomeImages aboutUsSx={aboutUsSx} />
+          </Box>
         </Box>
-      </Box>
-      {CoffeeDivider}
+      </Paper>
+      <CoffeeDivider />
       <Box sx={{ textAlign: 'center', bgcolor: 'background.darkPaper', py: 3, width: "100vw" }}>
         <Typography variant="body2" color="inherit">
           © {new Date().getFullYear()} Coffee The Diamond Don Boli. All rights reserved.
         </Typography>
       </Box>
-    </Box>
+    </Stack>
 
   );
 };

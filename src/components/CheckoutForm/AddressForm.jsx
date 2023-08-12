@@ -89,21 +89,21 @@ const AddressForm = ({ checkoutToken, next }) => {
   return (
     <>
       <Typography variant="h5" align="center">
-        Shipping Address
+        Dirección de envío
       </Typography>
       <br />
 
       <form align="center" onSubmit={handleSubmit(submit)}>
         <Grid container spacing={3}>
-          <FormInput control={control} name="firstName" label="First Name" required={true} />
-          <FormInput control={control} name="lastName" label="Last Name" required={false} />
-          <FormInput control={control} name="email" label="Email" required={false} />
-          <FormInput control={control} name="address" label="Address" required={false} />
-          <FormInput control={control} name="city" label="City" required={false} />
+          <FormInput control={control} name="firstName" label="Nombre" required={true} />
+          <FormInput control={control} name="lastName" label="Apellido" required={false} />
+          <FormInput control={control} name="email" label="Email" required />
+          <FormInput control={control} name="address" label="Dirección" required />
+          <FormInput control={control} name="city" label="Ciudad" required />
           {/* <FormInput control={control} name="zip" label="Zip / Postal Code" required={true} /> */}
 
           <Grid item xs={12} sm={6}>
-            <InputLabel>Shipping Country</InputLabel>
+            <InputLabel>País de envío</InputLabel>
             <Select
               value={shippingCountry}
               fullWidth
@@ -117,7 +117,7 @@ const AddressForm = ({ checkoutToken, next }) => {
             </Select>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <InputLabel>Shipping Subdivisions</InputLabel>
+            <InputLabel>Subdivisión</InputLabel>
             <Select
               value={shippingSubdivision}
               fullWidth
@@ -131,7 +131,7 @@ const AddressForm = ({ checkoutToken, next }) => {
             </Select>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <InputLabel>Shipping Options</InputLabel>
+            <InputLabel>Opciones de envío</InputLabel>
             <Select
               value={shippingOption}
               fullWidth
@@ -149,10 +149,10 @@ const AddressForm = ({ checkoutToken, next }) => {
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button component={Link} to="/cart" variant="outlined">
-            Back to Cart
+            Volver al carrito
           </Button>
           <Button type="submit" variant="contained" color="primary">
-            Next
+            Siguiente
           </Button>
         </div>
       </form>

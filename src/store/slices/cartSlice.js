@@ -18,6 +18,8 @@ const initialState = {
   confirmed: false,
   isLoadingProduct: false,
   isLoadingCart: false,
+  deferLoading: true,
+  orderNumber: 0,
 };
 
 const calcTotalItems = (items) => {
@@ -72,6 +74,12 @@ export const cartSlice = createSlice({
     setEmptyCart: (state) => {
       state.cart = initialState.cart;
     },
+    setDeferLoading: (state, action) => {
+      state.deferLoading = action.payload;
+    },
+    setOrderNumber: (state, action) => {
+      state.orderNumber = action.payload;
+    },
   },
 });
 
@@ -85,6 +93,8 @@ export const {
   setLoadingProduct,
   setLoadingCart,
   setEmptyCart,
+  setDeferLoading,
+  setOrderNumber,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

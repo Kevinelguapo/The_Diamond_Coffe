@@ -16,7 +16,7 @@ import LinearProgress, {
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import CartItem from "./CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { setConfirmed, setCart, setEmptyCart } from "../../store";
+import { setConfirmed, setCart, setEmptyCart, setOrderNumber } from "../../store";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CoffeeIcon from '@mui/icons-material/Coffee';
@@ -146,6 +146,7 @@ const Cart = ({ formatter }) => {
       color="primary"
       onClick={() => {
         dispatch(setConfirmed(true));
+        dispatch(setOrderNumber(0));
       }}
       sx={{
         width: { xs: "100%", sm: "40%" }, marginBottom: "10px",

@@ -5,7 +5,7 @@ const Review = ({ checkoutToken, formatter }) => {
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Order Summary
+        Resumen de la orden
       </Typography>
       <List disablePadding>
         {checkoutToken.line_items.map((product) =>
@@ -13,7 +13,7 @@ const Review = ({ checkoutToken, formatter }) => {
           <ListItem style={{ padding: "10px 0" }} key={product.name}>
             <ListItemText
               primary={product.name}
-              secondary={`Quantity: ${product.quantity}`}
+              secondary={`Cantidad: ${product.quantity}`}
             />
             <ListItemText  >
               {product.selected_options.map((option) => (

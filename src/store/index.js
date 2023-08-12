@@ -7,6 +7,8 @@ export {
   setLoadingProduct,
   setLoadingCart,
   setEmptyCart,
+  setDeferLoading,
+  setOrderNumber,
 } from "./slices/cartSlice";
 
 export {

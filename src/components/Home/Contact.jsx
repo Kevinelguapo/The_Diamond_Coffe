@@ -51,7 +51,7 @@ export const Contact = () => {
           alignItems: "center",
           gap: "16px",
           '& .MuiIconButton-root': { color: 'white'},
-          bgcolor: "rgba(0,0,0,0.85)",
+          bgcolor: "rgba(0,0,0,0.95)",
           width: "100%",
           height: "64px",
           zIndex: 99,

@@ -6,9 +6,15 @@ import { useDispatch } from "react-redux";
 import { } from "../../store";
 import md5 from "md5";
 import PaymentIcon from '@mui/icons-material/Payment';
+import { setEmptyCart } from "../../store";
+import { setOrderNumber } from "../../store";
+import { commerce } from "../../lib/commerce";
+import  payULogo from "../../assets/PNG-SQUARE/PNG SQUARE/PAYU_LOGO_SQUARE_WHITE-ai.png";
+
 
 
 import Review from "./Review";
+import { theme } from "../../theme";
 
 const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
   const dispatch = useDispatch();
@@ -19,7 +25,6 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
 
 
   const generateSignature = () => {
-    console.log(process.env.REACT_APP_PAYU_API_KEY)
     const signatureBase = [
       process.env.REACT_APP_PAYU_API_KEY,
       process.env.REACT_APP_PAYU_MERCHANT_ID,
@@ -27,7 +32,7 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
       // "508029",
       checkoutToken.id,
       // checkoutToken.total.raw,
-      "2000",
+      "14000",
       "COP",
     ].join("~");
 
@@ -42,7 +47,7 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
     description: "Compra en DonBoliCoffee",
     referenceCode: checkoutToken.id,
     // amount: checkoutToken.total.raw,
-    amount: "2000",
+    amount: "14000",
     tax: "0",
     taxReturnBase: "0",
     currency: checkoutToken.currency.code,
@@ -55,8 +60,8 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
     // payerFullName: shippingData.firstName + " " + shippingData.lastName,
     // payerDocument: shippingData.document,
     // payerDocumentType: shippingData.documentType,
-    // responseUrl: "http://localhost:3000/turismo",
-    // confirmationUrl: "http://localhost:3000/cart",
+    responseUrl: "http://localhost:3000/",
+    confirmationUrl: "http://localhost:3000/",
     // shippingAddress: shippingData.address,
     // shippingCity: shippingData.city,
     // shippingCountry: shippingData.shippingCountry,
@@ -67,8 +72,8 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
     // Create the form
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/";
-    //form.action = process.env.REACT_APP_PAYU_URL; 
+    // form.action = "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/";
+    form.action = "https://checkout.payulatam.com/ppp-web-gateway-payu/"; 
 
     // Add the form data
     Object.keys(order).forEach((key) => {
@@ -86,25 +91,14 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
   };
 
 
-  const handleApprove = (orderId) => {
+  const handleApprove = async (orderId) => {
     // call the backend function to fulfill the order
-    setPaidFor(true);
-    setOrderId(orderId);
+    dispatch(setEmptyCart());
+    dispatch(setOrderNumber(orderId))
+    // send an email confirmation and all the rest logic
+    await commerce.cart.empty();
   };
 
-  if (paidFor) {
-    alert("Thank you for your purchase! ");
-    // dispatch(clearCart());
-    return (
-      <div>
-        <Typography variant="h5" gutterBottom>
-          Thank you for your purchase!
-        </Typography>
-        <Divider />
-        <Typography variant="subtitle2">Order ref: {orderId}</Typography>
-      </div>
-    );
-  }
   if (error) {
     alert(error);
   }
@@ -119,26 +113,29 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
       <Button
         size="large"
         variant="contained"
-        color="primary"
-        sx={{ width: "100%", padding: "10px 0", textTransform: "none" }}
+        sx={{ width: "100%", padding: "10px 0", textTransform: "none", color: theme.palette.primary.contrastText, borderColor: theme.palette.primary.main }}
         onClick={handleSubmit}
 
       >
-        <PaymentIcon sx={{ mr: 1 }} />
-        <Typography variant="h6" style={{ margin: "0 0" }}>
-          PayU
+        {/* <PaymentIcon sx={{ mr: 1 }} /> */}
+        <img src={payULogo} alt="PayU logo" style={{ width: 30, height: "auto", marginRight: 8 }} />
+        <Typography variant='h6' style={{ margin: 0}}>
+          Pagar con PayU
         </Typography>
-      </Button>
 
+      </Button>
+      
+      {/* 
       <Divider sx={{
         mt: 3,
         mb: 3,
-      }} />
+      }} /> */}
 
       {/* button to pay with paypal */}
 
       <Box sx={{
         bgcolor: 'background.white',
+        display: 'none',
         padding: "10px",
         borderRadius: "5px",
       }} >
@@ -166,7 +163,7 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
                   description: order.description,
                   amount: {
                     currency_code: "USD",
-                    value: 0.01,
+                    value: 0.1,
                   },
                 },
               ],
@@ -175,6 +172,7 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
           onApprove={async (data, actions) => {
             const order = await actions.order.capture();
             const name = order.payer.name.given_name;
+            alert(`Transaction completed by ${name}`);
             handleApprove(data.orderID);
 
             console.log("PayPal Checkout onApprove", order);

@@ -76,7 +76,7 @@ const HomeImages = ({ aboutUsSx }) => {
 
   return (
     <>
-      <ImageList cols={2} gap={8} sx={aboutUsSx}>
+      <ImageList cols={2} gap={8} sx={{...aboutUsSx, m: 0}} >
         {images.map((item, idx) => (
           <ImageListItem key={item.id} sx={{ img: { borderRadius: "8px" } }}
             onClick={() => handleImageClick(idx)}

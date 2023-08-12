@@ -41,7 +41,7 @@ const Navbar = () => {
         borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
       }}
     >
-      <Container sx={{ height: "80px", margin: 0 }} maxWidth={false}>
+      <Container maxWidth={false} sx={{ height: "80px", width: "100%", margin: 0 }}>
         <Toolbar disableGutters sx={{ height: "100%", width: "100%" }}>
           <Box
             component={Link}
@@ -114,17 +114,21 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-          <Box sx={{
-            flexGrow: 1, display: { xs: "flex", md: "none" }
+          <Box 
+          component={Link}
+          to="/"
+           sx={{
+            display: { xs: "flex", md: "none"},
+            flexGrow: 1
           }}>
-            <MyLogo fill="black" stroke="white" height={56} />
+            <MyLogo fill="black" stroke="white" width={150} />
           </Box>
           <IconButton
             aria-label="cart"
             component={Link}
             to="/cart"
             color="inherit"
-            sx={{ pr: "10px" }}
+            sx={{ pr: "10px"}}
             disabled={isLoadingCart}
           >
             <Badge

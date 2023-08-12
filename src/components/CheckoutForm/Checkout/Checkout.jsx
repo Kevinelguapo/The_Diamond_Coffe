@@ -18,15 +18,19 @@ import PaymentForm from "../PaymentForm";
 import FormSkeleton from "../FormSkeleton";
 import { commerce } from "../../../lib/commerce";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setDeferLoading } from "../../../store";
 
-const steps = ["Shipping adress", "Payment details"];
+const steps = ["Dirección", "Pago"];
 
-const Checkout = ({formatter}) => {
+const Checkout = ({ formatter }) => {
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
 
   const { cart } = useSelector((state) => state.cart);
+  const { orderNumber } = useSelector((state) => state.cart);
 
   const generateToken = async () => {
     try {
@@ -39,6 +43,10 @@ const Checkout = ({formatter}) => {
       console.log("Error generating token", error);
     }
   };
+
+  useEffect(() => {
+    dispatch(setDeferLoading(false));
+  }, [])
 
   useEffect(() => {
     generateToken();
@@ -55,13 +63,14 @@ const Checkout = ({formatter}) => {
     nextStep();
   };
 
-  const Confirmation = () =>
+  const Confirmation = ({ orderNumber }) =>
     <React.Fragment>
+      {console.log("orderNumber: " + orderNumber)}
       <Typography variant="h5" gutterBottom>
         Thank you for your order.
       </Typography>
       <Typography variant="subtitle1">
-        Your order number is #2001539. We have emailed your order
+        Your order id is "{orderNumber}". We have emailed your order
         confirmation, and will send you an update when your order has
         shipped.
       </Typography>
@@ -84,8 +93,13 @@ const Checkout = ({formatter}) => {
   }
 
   return (
-    <Container component="main" maxWidth="sm" sx={{ mt:"100px", mb: 4 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }}}>
+    <Container component="main" maxWidth="sm" sx={{ mt: "100px", mb: 4 }}>
+      <Paper variant="outlined" sx={{
+        my: { xs: 3, md: 6 },
+        p: { xs: 2, md: 3 },
+        maxHeight: "calc(100vh - 150px)",
+        overflowY: "scroll",
+      }}>
         <Typography component="h1" variant="h4" align="center">
           Checkout
         </Typography>
@@ -97,7 +111,7 @@ const Checkout = ({formatter}) => {
           ))}
         </Stepper>
         {activeStep === steps.length ? (
-          <Confirmation />
+          <Confirmation orderNumber={orderNumber} />
         ) : (
           <>
             {checkoutToken ? getStepContent(activeStep) : <FormSkeleton />}
@@ -107,10 +121,10 @@ const Checkout = ({formatter}) => {
                   Back
                 </Button>
               )}
-              {activeStep == steps.length - 1 && 
-              <Button variant="contained" onClick={nextStep} sx={{ mt: 3, ml: 1 }} >
-                Place Order
-              </Button>
+              {activeStep == steps.length - 1 &&
+                <Button variant="contained" disabled={orderNumber === 0 ? true : false} onClick={nextStep} sx={{ mt: 3, ml: 1 }} >
+                  Place Order
+                </Button>
               }
             </Box>
           </>

@@ -31,8 +31,8 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
       // "4Vj8eK4rloUd272L48hsrarnUA",
       // "508029",
       checkoutToken.id,
-      // checkoutToken.total.raw,
-      "14000",
+      checkoutToken.total.raw,
+      // "14000",
       "COP",
     ].join("~");
 
@@ -46,8 +46,7 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
     // accountId: "512321",
     description: "Compra en DonBoliCoffee",
     referenceCode: checkoutToken.id,
-    // amount: checkoutToken.total.raw,
-    amount: "14000",
+    amount: checkoutToken.total.raw,
     tax: "0",
     taxReturnBase: "0",
     currency: checkoutToken.currency.code,
@@ -55,16 +54,16 @@ const PaymentForm = ({ shippingData, checkoutToken, formatter }) => {
     buyerEmail: shippingData.email,
     // telephone: shippingData.phone,
     buyerFullName: shippingData.firstName + " " + shippingData.lastName,
-    // payerEmail: shippingData.email,
+    payerEmail: shippingData.email,
     // payerPhone: shippingData.phone,
     // payerFullName: shippingData.firstName + " " + shippingData.lastName,
     // payerDocument: shippingData.document,
     // payerDocumentType: shippingData.documentType,
-    responseUrl: "http://localhost:3000/",
-    confirmationUrl: "http://localhost:3000/",
-    // shippingAddress: shippingData.address,
-    // shippingCity: shippingData.city,
-    // shippingCountry: shippingData.shippingCountry,
+    responseUrl: 'https:donbolicoffee.com/',
+    confirmationUrl: "https://donbolicoffee.com/",
+    shippingAddress: shippingData.address,
+    shippingCity: shippingData.city,
+    shippingCountry: shippingData.shippingCountry,
   };
 
 
